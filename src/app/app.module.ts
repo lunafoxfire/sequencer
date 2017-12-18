@@ -8,12 +8,14 @@ import { SequencerPageComponent } from './sequencer-page/sequencer-page.componen
 import { IndexPageComponent } from './index-page/index-page.component';
 
 import { routing } from './app.routing';
+import { SequencerComponent } from './sequencer/sequencer.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     SequencerPageComponent,
-    IndexPageComponent
+    IndexPageComponent,
+    SequencerComponent
   ],
   imports: [
     BrowserModule,
