@@ -1,7 +1,7 @@
 import { ModuleWithProviders }  from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { IndexPageComponent } from './index-page/index-page.component';
-import { AppPageComponent } from './app-page/app-page.component';
+import { SequencerPageComponent } from './sequencer-page/sequencer-page.component';
 
 const appRoutes: Routes = [
   {
@@ -9,8 +9,8 @@ const appRoutes: Routes = [
     component: IndexPageComponent
   },
   {
-    path: 'app',
-    component: AppPageComponent
+    path: 'sequencer',
+    component: SequencerPageComponent
   },
 ];
 
