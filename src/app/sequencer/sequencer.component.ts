@@ -18,16 +18,18 @@ export class SequencerComponent implements OnInit {
   numRows: number = this.noteRangeMax - this.noteRangeMin + 1;
   sequencerHeight: number = this.gridHeight * this.numRows;
 
+  // TODO: Set width based on number of measures
+  gridSquaresPerMeasure: number = 8;
+  numMeasures: number = 2;
   gridWidth: number = 70;
-  sequencerWidth: number = 1500;
+  mainLayerWidth: number = this.numMeasures * this.gridSquaresPerMeasure * this.gridWidth;
 
-  sidebarWidth: number = 200;
+  sidebarLayerWidth: number = 200;
+  stage: Konva.Stage;
 
-  mainStage: Konva.Stage;
-  sideStage: Konva.Stage;
-
-  synth = new PolySynth(4, Synth).toMaster();
-  notes: Note[] = testSong;
+  synth = new PolySynth(8, Synth).toMaster();
+  notes: Note[] = [];
+  part: Part = new Part();
 
   constructor() {}
 
@@ -37,49 +39,55 @@ export class SequencerComponent implements OnInit {
   }
 
   private initGUI() {
-    this.initMainStage();
-    this.initSideStage();
-  }
-
-  private initMainStage() {
-    this.mainStage = new Konva.Stage({
+    this.stage = new Konva.Stage({
       container: 'sequencer',
-      x: this.sidebarWidth,
-      y: 0,
-      width: this.sequencerWidth,
+      width: this.mainLayerWidth + this.sidebarLayerWidth,
       height: this.sequencerHeight
     });
-    this.initMainBackground();
-    this.initMainGrid();
+    let mainLayer: Konva.Layer = this.initMainLayer();
+    let sideLayer: Konva.Layer = this.initSideLayer();
+    this.stage.add(mainLayer);
+    this.stage.add(sideLayer);
   }
-  private initMainBackground() {
-    let bgLayer = new Konva.Layer({
-      name: 'background'
+
+  private initMainLayer() {
+    let mainLayer: Konva.Layer = new Konva.Layer({
+      x: this.sidebarLayerWidth
     });
+    let bgGroup: Konva.Group = this.initBackgroundGroup();
+    mainLayer.add(bgGroup);
+    return mainLayer;
+  }
+  private initBackgroundGroup() {
+    let bgGroup = new Konva.Group();
     let bgRect = new Konva.Rect({
       x: 0,
       y: 0,
-      width: this.mainStage.getWidth(),
-      height: this.mainStage.getHeight(),
+      width: this.stage.getWidth(),
+      height: this.stage.getHeight(),
       fill: styles.bgColor
     });
     bgRect.on('click', () => {
-      let clickX = this.mainStage.getPointerPosition().x - this.sidebarWidth;
-      let clickY = this.mainStage.getPointerPosition().y;
+      let clickX = this.stage.getPointerPosition().x - this.sidebarLayerWidth;
+      let clickY = this.stage.getPointerPosition().y;
       let clickXBox = Math.floor(clickX / this.gridWidth);
       let clickYBox = Math.floor(clickY / this.gridHeight);
 
       let clickedNote = Note.convertNumToString(this.noteRangeMax - clickYBox);
-      console.log(clickedNote);
+      let clickedTime = Note.convertEigthNoteNumToMeasureString(clickXBox);
+      let newNote: Note = new Note(clickedNote, clickedTime, '8n');
+      this.notes.push(newNote);
+      this.buildNotes();
+      console.log(this.notes);
     });
-    bgLayer.add(bgRect);
-    this.mainStage.add(bgLayer);
+    bgGroup.add(bgRect);
+    let gridGroup: Konva.Group = this.initGridGroup();
+    bgGroup.add(gridGroup);
+    return bgGroup;
   }
-  private initMainGrid() {
-    let gridLayer = new Konva.Layer({
-      name: 'grid'
-    });
-    let numVertLines = this.sequencerWidth / this.gridWidth;
+  private initGridGroup() {
+    let gridGroup = new Konva.Group();
+    let numVertLines = this.mainLayerWidth / this.gridWidth;
     let numHorizLines = this.sequencerHeight / this.gridHeight;
     for (let i = 0; i <= numVertLines; i++) {
       let lineWidth = (i % 8 === 0) ? 4 : (i % 4 === 0) ? 2 : 1;
@@ -88,33 +96,36 @@ export class SequencerComponent implements OnInit {
         stroke: styles.gridColor,
         strokeWidth: lineWidth
       });
-      gridLayer.add(line);
+      gridGroup.add(line);
     }
     for (let j = 1; j <= numHorizLines; j++) {
       let line = new Konva.Line({
-        points: [0, this.gridHeight * j, this.sequencerWidth, this.gridHeight * j],
+        points: [0, this.gridHeight * j, this.mainLayerWidth, this.gridHeight * j],
         stroke: styles.gridColor,
         strokeWidth: 1
       });
-      gridLayer.add(line);
+      gridGroup.add(line);
     }
-    this.mainStage.add(gridLayer);
+    return gridGroup;
   }
 
-  private initSideStage() {
+  private initSideLayer() {
     // TODO: stuff
+    let sideLayer: Konva.Layer = new Konva.Layer();
+    return sideLayer;
   }
 
   private buildNotes() {
+    this.part.removeAll();
     let noteEvents = [];
     this.notes.forEach((note)=>{
       let noteEvent = {time: note.start, note: note.pitch, dur: note.length};
       noteEvents.push(noteEvent);
     });
-    let part = new Part((time, event)=>{
+    this.part = new Part((time, event)=>{
       this.synth.triggerAttackRelease(event.note, event.dur, time)
     }, noteEvents);
-    part.start(0);
+    this.part.start(0);
   }
 
   public playStop() {

@@ -53,4 +53,8 @@ export class Note {
     }
     return pitchClass + octave;
   }
+
+  static convertEigthNoteNumToMeasureString(number: number) {
+    return `0:${(number / 2) + 1}`
+  }
 }
