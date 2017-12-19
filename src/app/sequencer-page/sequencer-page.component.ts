@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { SequencerComponent } from './../sequencer/sequencer.component';
 
 @Component({
   selector: 'app-sequencer-page',
@@ -9,6 +10,7 @@ export class SequencerPageComponent implements OnInit {
 
   constructor() { }
 
+  sequencer = new SequencerComponent;
 
   buttonToggle() {
     // alert("toggle");
