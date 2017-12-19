@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { SequencerComponent } from './../sequencer/sequencer.component';
+import { Main } from '../models/main';
 
 @Component({
   selector: 'app-sequencer-page',
@@ -10,8 +10,6 @@ export class SequencerPageComponent implements OnInit {
 
   constructor() { }
 
-  sequencer = new SequencerComponent;
-
   buttonToggle() {
     // alert("toggle");
     var variable = document.querySelector('#play-pause').classList;
@@ -20,7 +18,9 @@ export class SequencerPageComponent implements OnInit {
     } else { variable.add('paused') }
   }
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
+  public playStop() {
+    Main.playStop();
+  }
 }

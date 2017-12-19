@@ -1,0 +1,17 @@
+export class Styles {
+  public bgColor;
+  public gridColor;
+  public noteColor;
+  public noteBorderColor;
+  public selectedNoteColor;
+  public selectedNoteBorderColor;
+
+  constructor(settings) {
+    this.bgColor = settings.bgColor || 'white';
+    this.gridColor = settings.gridColor || 'black';
+    this.noteColor = settings.noteColor || 'asdfghjkl';
+    this.noteBorderColor = settings.noteBorderColor || 'black';
+    this.selectedNoteColor = settings.selectedNoteColor || 'black';
+    this.selectedNoteBorderColor = settings.selectedNoteBorderColor || 'black';
+  }
+}
