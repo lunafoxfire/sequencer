@@ -45,21 +45,28 @@ export class SequencerComponent implements OnInit {
       height: this.sequencerHeight
     });
     let mainLayer: Konva.Layer = this.initMainLayer();
-    let sideLayer: Konva.Layer = this.initSideLayer();
+    let sidebarLayer: Konva.Layer = this.initSideLayer();
     this.stage.add(mainLayer);
-    this.stage.add(sideLayer);
+    this.stage.add(sidebarLayer);
   }
 
   private initMainLayer() {
     let mainLayer: Konva.Layer = new Konva.Layer({
+      id: 'main-layer',
       x: this.sidebarLayerWidth
     });
     let bgGroup: Konva.Group = this.initBackgroundGroup();
     mainLayer.add(bgGroup);
+    let notesGroup: Konva.Group = new Konva.Group({
+      id: 'notes-group'
+    });
+    mainLayer.add(notesGroup);
     return mainLayer;
   }
   private initBackgroundGroup() {
-    let bgGroup = new Konva.Group();
+    let bgGroup = new Konva.Group({
+      id: 'background-group'
+    });
     let bgRect = new Konva.Rect({
       x: 0,
       y: 0,
@@ -78,6 +85,16 @@ export class SequencerComponent implements OnInit {
       let newNote: Note = new Note(clickedNote, clickedTime, '8n');
       this.notes.push(newNote);
       this.buildNotes();
+      let notesGroup = this.stage.find('#notes-group')[0];
+      let noteRect = new Konva.Rect({
+        x: clickXBox * this.gridWidth,
+        y: clickYBox * this.gridHeight,
+        width: this.gridWidth,
+        height: this.gridHeight,
+        fill: 'lime'
+      });
+      notesGroup.add(noteRect);
+      notesGroup.draw();
       console.log(this.notes);
     });
     bgGroup.add(bgRect);
@@ -86,7 +103,9 @@ export class SequencerComponent implements OnInit {
     return bgGroup;
   }
   private initGridGroup() {
-    let gridGroup = new Konva.Group();
+    let gridGroup = new Konva.Group({
+      id: 'grid-group'
+    });
     let numVertLines = this.mainLayerWidth / this.gridWidth;
     let numHorizLines = this.sequencerHeight / this.gridHeight;
     for (let i = 0; i <= numVertLines; i++) {
@@ -111,8 +130,10 @@ export class SequencerComponent implements OnInit {
 
   private initSideLayer() {
     // TODO: stuff
-    let sideLayer: Konva.Layer = new Konva.Layer();
-    return sideLayer;
+    let sidebarLayer: Konva.Layer = new Konva.Layer({
+      id: 'sidebar-layer'
+    });
+    return sidebarLayer;
   }
 
   private buildNotes() {
