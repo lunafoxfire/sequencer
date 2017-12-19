@@ -12,10 +12,17 @@ import { testSong } from './testSong';
   styleUrls: ['./sequencer.component.scss']
 })
 export class SequencerComponent implements OnInit {
-  sequencerWidth: number = 1500;
-  sequencerHeight: number = 900;
-  gridWidth: number = 70;
   gridHeight: number = 40;
+  noteRangeMax: number = 12;
+  noteRangeMin: number = -12;
+  numRows: number = this.noteRangeMax - this.noteRangeMin + 1;
+  sequencerHeight: number = this.gridHeight * this.numRows;
+
+  gridWidth: number = 70;
+  sequencerWidth: number = 1500;
+
+  sidebarWidth: number = 200;
+
   mainStage: Konva.Stage;
   sideStage: Konva.Stage;
 
@@ -37,7 +44,7 @@ export class SequencerComponent implements OnInit {
   private initMainStage() {
     this.mainStage = new Konva.Stage({
       container: 'sequencer',
-      x: 200,
+      x: this.sidebarWidth,
       y: 0,
       width: this.sequencerWidth,
       height: this.sequencerHeight
@@ -57,7 +64,13 @@ export class SequencerComponent implements OnInit {
       fill: styles.bgColor
     });
     bgRect.on('click', () => {
-      console.log(this.mainStage.getPointerPosition());
+      let clickX = this.mainStage.getPointerPosition().x - this.sidebarWidth;
+      let clickY = this.mainStage.getPointerPosition().y;
+      let clickXBox = Math.floor(clickX / this.gridWidth);
+      let clickYBox = Math.floor(clickY / this.gridHeight);
+
+      let clickedNote = Note.convertNumToString(this.noteRangeMax - clickYBox);
+      console.log(clickedNote);
     });
     bgLayer.add(bgRect);
     this.mainStage.add(bgLayer);
@@ -69,7 +82,7 @@ export class SequencerComponent implements OnInit {
     let numVertLines = this.sequencerWidth / this.gridWidth;
     let numHorizLines = this.sequencerHeight / this.gridHeight;
     for (let i = 0; i <= numVertLines; i++) {
-      let lineWidth = (i % 4 === 0) ? 2 : 1;
+      let lineWidth = (i % 8 === 0) ? 4 : (i % 4 === 0) ? 2 : 1;
       let line = new Konva.Line({
         points: [this.gridWidth * i, 0, this.gridWidth * i, this.sequencerHeight],
         stroke: styles.gridColor,
