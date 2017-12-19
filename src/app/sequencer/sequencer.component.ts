@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 // TODO: Fix the thing pls
 // import { Layer } from 'konva';
+import * as Konva from 'konva';
 import { PolySynth, Synth, Transport, Part } from 'tone';
 import { Note } from './../models/note';
 
