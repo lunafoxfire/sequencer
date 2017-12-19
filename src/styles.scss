@@ -3,6 +3,14 @@
 // https://codepen.io/anon/pen/rpxbjY
 //  buttons
 
+//colors
+
+$blue: #87CEEB;
+$dark-grey: #555;
+// $mid-grey: #
+// $outline-grey
+// $light-grey
+$orange: #fc4920;
 
 
 body {
@@ -87,7 +95,7 @@ button {
 }
 
 .slider {
-  background: #666;
+  background: $dark-grey;
   -webkit-appearance: none;
   appearance: none;
   height: 10px;

@@ -7,8 +7,8 @@
     <app-sequencer></app-sequencer>
     <div class="footer">
       <div class="button-holder">
-        <button (click)="sequencer.playStop()">
-          Play
+        <button (click)="sequencer.playStop(); buttonToggleName()">
+          {{buttonToggleNameValue()}}
           <!-- <div (click)="buttonToggle()" id="play-pause" class="play"></div> -->
           </button>
         <button>Stop</button>
@@ -17,7 +17,8 @@
       <div id="slidecontainer">
         <input type="range" min="1" max="100" value="50" class="slider" id="bpm-slider">
       </div>
-      <button class="button" id="volume"></button>
+      <!-- <button class="button" id="volume"></button> -->
+      <input type="text" class="dial button" data-min="-50" data-max="50">
     </div>
   </div>
 </div>
