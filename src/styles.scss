@@ -3,10 +3,19 @@
 // https://codepen.io/anon/pen/rpxbjY
 //  buttons
 
+//colors
+
+$blue: #87CEEB;
+$dark-grey: #555;
+// $mid-grey: #
+// $outline-grey
+// $light-grey
+$orange: #fc4920;
 
 
 body {
-  background-color: #a6a7a8;
+  background: linear-gradient(#f4f4f4,#bfbfbf,#d7d7d7,#c3c3c3,#ccc,#d7d7d7,#bfbfbf,#d7d7d7,#c3c3c3,#ccc,#d7d7d7,#bfbfbf);
+
 }
 
 $sh: radial-gradient(
@@ -54,17 +63,19 @@ button {
 
 .inner-container {
   padding: 50px;
-    background: linear-gradient(#f4f4f4,#bfbfbf,#d7d7d7,#c3c3c3,#ccc,#d7d7d7,#bfbfbf,#d7d7d7,#c3c3c3,#ccc,#d7d7d7,#bfbfbf);
- // background: url("assets/images/brushsteel2.jpg");
+    // background: linear-gradient(#f4f4f4,#bfbfbf,#d7d7d7,#c3c3c3,#ccc,#d7d7d7,#bfbfbf,#d7d7d7,#c3c3c3,#ccc,#d7d7d7,#bfbfbf);
+ // background: url("assets/images/Brushed-metal-working-file.png");
+ border-radius: 5px;
  // background-size: cover;
 }
 
 #sequencer {
   display: inline-block;
-  border: 1px solid black;
+  border: 1px solid $dark-grey;
   width: 1000px;
   height: 600px;
   overflow: scroll;
+
 }
 
 .footer {
@@ -90,7 +101,7 @@ button {
 }
 
 .slider {
-  background: #666;
+  background: $dark-grey;
   -webkit-appearance: none;
   appearance: none;
   height: 10px;
@@ -116,6 +127,15 @@ button {
   cursor: pointer; /* Cursor on hover */
 }
 
+.volume {
+  // background: linear-gradient(120deg,#d7d7d7,#c3c3c3,#ccc,#d7d7d7,#bfbfbf);
+  border-radius: 50%;
+  width: 110px;
+  height: 110px;
+  background-image: url('./assets/images/silver-knob.png');
+  background-size: contain;
+
+}
 
 * {
   box-sizing:border-box;
