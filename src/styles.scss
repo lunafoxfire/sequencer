@@ -60,10 +60,8 @@ button {
 }
 
 .canvas {
-  width: 1000px;
-  height: 600px;
-  background-color: grey;
-  margin: auto;
+  display: inline-block;
+  border: 1px solid black;
 }
 
 .footer {
