@@ -3,6 +3,7 @@ import * as Konva from 'konva';
 import { PolySynth, Synth, Transport, Part } from 'tone';
 import { Note } from './../models/note';
 
+import { styles } from './sequencerStyle';
 import { testSong } from './testSong';
 
 @Component({
@@ -15,10 +16,8 @@ export class SequencerComponent implements OnInit {
   sequencerHeight: number = 900;
   gridWidth: number = 70;
   gridHeight: number = 40;
-  stage: Konva.Stage;
-
-  bgColor: string = 'cyan';
-  gridColor: string = 'black';
+  mainStage: Konva.Stage;
+  sideStage: Konva.Stage;
 
   synth = new PolySynth(4, Synth).toMaster();
   notes: Note[] = testSong;
@@ -26,45 +25,54 @@ export class SequencerComponent implements OnInit {
   constructor() {}
 
   ngOnInit() {
-    this.initializeCanvas();
+    this.initGUI();
     this.buildNotes();
   }
 
-  private initializeCanvas() {
-    this.stage = new Konva.Stage({
+  private initGUI() {
+    this.initMainStage();
+    this.initSideStage();
+  }
+
+  private initMainStage() {
+    this.mainStage = new Konva.Stage({
       container: 'sequencer',
+      x: 200,
+      y: 0,
       width: this.sequencerWidth,
       height: this.sequencerHeight
     });
-    this.initBackground();
-    this.initGrid();
+    this.initMainBackground();
+    this.initMainGrid();
   }
-  private initBackground() {
+  private initMainBackground() {
     let bgLayer = new Konva.Layer({
       name: 'background'
     });
     let bgRect = new Konva.Rect({
       x: 0,
       y: 0,
-      width: this.stage.getWidth(),
-      height: this.stage.getHeight(),
-      fill: this.bgColor
+      width: this.mainStage.getWidth(),
+      height: this.mainStage.getHeight(),
+      fill: styles.bgColor
     });
-    bgRect.on('click', this.onBgClick.bind(this));
+    bgRect.on('click', () => {
+      console.log(this.mainStage.getPointerPosition());
+    });
     bgLayer.add(bgRect);
-    this.stage.add(bgLayer);
+    this.mainStage.add(bgLayer);
   }
-  private initGrid() {
+  private initMainGrid() {
     let gridLayer = new Konva.Layer({
       name: 'grid'
     });
     let numVertLines = this.sequencerWidth / this.gridWidth;
     let numHorizLines = this.sequencerHeight / this.gridHeight;
-    for (let i = 1; i <= numVertLines; i++) {
+    for (let i = 0; i <= numVertLines; i++) {
       let lineWidth = (i % 4 === 0) ? 2 : 1;
       let line = new Konva.Line({
         points: [this.gridWidth * i, 0, this.gridWidth * i, this.sequencerHeight],
-        stroke: this.gridColor,
+        stroke: styles.gridColor,
         strokeWidth: lineWidth
       });
       gridLayer.add(line);
@@ -72,16 +80,16 @@ export class SequencerComponent implements OnInit {
     for (let j = 1; j <= numHorizLines; j++) {
       let line = new Konva.Line({
         points: [0, this.gridHeight * j, this.sequencerWidth, this.gridHeight * j],
-        stroke: this.gridColor,
+        stroke: styles.gridColor,
         strokeWidth: 1
       });
       gridLayer.add(line);
     }
-    this.stage.add(gridLayer);
+    this.mainStage.add(gridLayer);
   }
 
-  private onBgClick() {
-    console.log(this.stage.getPointerPosition());
+  private initSideStage() {
+    // TODO: stuff
   }
 
   private buildNotes() {
