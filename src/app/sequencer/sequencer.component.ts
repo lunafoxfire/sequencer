@@ -1,6 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-// TODO: Fix the thing pls
-// import { Layer } from 'konva';
 import * as Konva from 'konva';
 import { PolySynth, Synth, Transport, Part } from 'tone';
 import { Note } from './../models/note';
@@ -13,10 +11,11 @@ import { testSong } from './testSong';
   styleUrls: ['./sequencer.component.scss']
 })
 export class SequencerComponent implements OnInit {
-  canvasWidth: number = 1000;
-  canvasHeight: number = 600;
-  gridWidth: number = 100;
-  gridHeight: number = 100;
+  sequencerWidth: number = 1500;
+  sequencerHeight: number = 900;
+  gridWidth: number = 70;
+  gridHeight: number = 70;
+  stage: Konva.Stage;
 
   synth = new PolySynth(4, Synth).toMaster();
   notes: Note[] = testSong;
@@ -24,10 +23,34 @@ export class SequencerComponent implements OnInit {
   constructor() {}
 
   ngOnInit() {
-    this.buildPart();
+    this.initializeCanvas();
+    this.buildNotes();
   }
 
-  private buildPart() {
+  private initializeCanvas() {
+    this.stage = new Konva.Stage({
+      container: 'sequencer',
+      width: this.sequencerWidth,
+      height: this.sequencerHeight
+    });
+    let bgLayer = new Konva.Layer({
+      name: 'background'
+    });
+    let bgRect = new Konva.Rect({
+      x: 0,
+      y: 0,
+      width: this.stage.getWidth(),
+      height: this.stage.getHeight(),
+      fill: 'cyan'
+    });
+    bgRect.on('click', () => {
+      console.log(this.stage.getPointerPosition());
+    });
+    bgLayer.add(bgRect);
+    this.stage.add(bgLayer);
+  }
+
+  private buildNotes() {
     let noteEvents = [];
     this.notes.forEach((note)=>{
       let noteEvent = {time: note.start, note: note.pitch, dur: note.length};
