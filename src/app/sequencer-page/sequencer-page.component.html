@@ -1,6 +1,23 @@
-<div class="top">
-  app-page works!
-</div>
-<app-sequencer></app-sequencer>
-<div class="footer">
+<div class="outer-container">
+  <div class="inner-container">
+
+    <div class="top">
+
+    </div>
+    <app-sequencer></app-sequencer>
+    <div class="footer">
+      <div class="button-holder">
+        <button>
+          Play
+          <!-- <div (click)="buttonToggle()" id="play-pause" class="play"></div> -->
+          </button>
+        <button>Stop</button>
+      </div>
+
+      <div id="slidecontainer">
+        <input type="range" min="1" max="100" value="50" class="slider" id="bpm-slider">
+      </div>
+      <button class="button" id="volume"></button>
+    </div>
+  </div>
 </div>

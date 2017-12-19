@@ -9,6 +9,15 @@ export class SequencerPageComponent implements OnInit {
 
   constructor() { }
 
+
+  buttonToggle() {
+    // alert("toggle");
+    var variable = document.querySelector('#play-pause').classList;
+    if (variable.contains("paused") === true) {
+      variable.remove('paused');
+    } else { variable.add('paused') }
+  }
+
   ngOnInit() {
   }
 
