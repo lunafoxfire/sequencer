@@ -98,7 +98,8 @@
                     displayInput : this.$.data('displayinput') == null || this.$.data('displayinput'),
                     displayPrevious : this.$.data('displayprevious'),
                     fgColor : this.$.data('fgcolor') || '#87CEEB',
-                    inputColor: this.$.data('inputcolor') || this.$.data('fgcolor') || '#87CEEB',
+                    background : this.$.data('background') || 'linear-gradient(#f4f4f4,#c3c3c3,#d7d7d7,#ccc,#bfbfbf)',
+                    inputColor: this.$.data('inputcolor') || this.$.data('fgcolor') || '#555',
                     inline : false,
                     step : this.$.data('step') || 1,
 
