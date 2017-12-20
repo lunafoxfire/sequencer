@@ -55,6 +55,6 @@ export class Note {
   }
 
   static convertEigthNoteNumToMeasureString(number: number) {
-    return `0:${(number / 2) + 1}`
+    return `0:${(number / 2)}`
   }
 }

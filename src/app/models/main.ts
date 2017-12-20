@@ -147,7 +147,6 @@ export class Main {
     this.lastNoteAddedId++;
     notesGroup.add(noteRect);
     notesGroup.draw();
-    console.log(this.notes);
   }
 
   private removeNoteFromNoteGroup(event) {
@@ -159,8 +158,10 @@ export class Main {
   }
 
   public static playStop() {
+    Transport.loopEnd = '1m';
+    Transport.loop = true;
     if (Transport.state !== "started") {
-      Transport.start('+0', '0');
+      Transport.start('+0', 0);
     }
     else if (Transport.state !== "stopped") {
       Transport.stop();
