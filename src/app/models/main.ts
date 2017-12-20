@@ -115,7 +115,8 @@ export class Main {
     this.part.start(0);
   }
 
-  private addNoteToNoteGroup(note: Note, boxX: number, boxY: number) {
+  private addNoteToNoteGroup() {
+
     let clickX = this.stage.getPointerPosition().x - this.sidebarLayerWidth;
     let clickY = this.stage.getPointerPosition().y;
     let clickXBox = Math.floor(clickX / this.grid.cellWidth);
@@ -124,6 +125,7 @@ export class Main {
     let clickedNote = Note.convertNumToString(this.noteRangeMax - clickYBox);
     let clickedTime = Note.convertEigthNoteNumToMeasureString(clickXBox);
     let newNote: Note = new Note(clickedNote, clickedTime, '8n');
+    this.synth.triggerAttackRelease(newNote.pitch, newNote.length);
     this.notes[this.lastNoteAddedId] = newNote;
     this.buildNotes();
     let notesGroup = this.stage.find('#notes-group')[0];
