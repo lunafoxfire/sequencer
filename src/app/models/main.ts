@@ -1,10 +1,10 @@
 import * as Konva from 'konva';
 import { PolySynth, Synth, Transport, Part } from 'tone';
 import { Note } from './../models/note';
-import { Styles } from './../models/styles';
+import { StyleSettings } from './../models/style-settings';
 
 export class Main {
-  private styles: Styles;
+  private styles: StyleSettings;
 
   private gridHeight: number = 40;
   private noteRangeMax: number = 12;
@@ -24,9 +24,8 @@ export class Main {
   private notes: Note[] = [];
   private part: Part = new Part();
 
-  constructor(containerId: string, styles: Styles) {
+  constructor(containerId: string, styles: StyleSettings) {
     this.styles = styles;
-    console.log(styles);
     this.initGUI(containerId);
     this.buildNotes();
   }

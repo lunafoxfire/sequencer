@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Main } from '../models/main';
-import { styles } from './sequencerStyle';
+import { styles } from './sequencer-styles';
 
 @Component({
   selector: 'app-sequencer',

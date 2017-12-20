@@ -1,6 +1,6 @@
-import { Styles } from '../models/styles';
+import { StyleSettings } from '../models/style-settings';
 
-export const styles = new Styles({
+export const styles = new StyleSettings({
   bgColor: 'orange',
   gridColor: 'asdfhjkl',
   noteColor: '',

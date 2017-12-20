@@ -1,4 +1,4 @@
-export class Styles {
+export class StyleSettings {
   public bgColor;
   public gridColor;
   public noteColor;
