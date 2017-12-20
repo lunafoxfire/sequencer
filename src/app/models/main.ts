@@ -167,4 +167,11 @@ export class Main {
     console.log(number);
     Transport.bpm.value = number;
   }
+
+  public clearNotes(){
+    this.notes = {};
+    this.buildNotes(); // make this attached to notesGroup object in the future to reflect all changes made to notes-group
+    this.stage.find("#notes-group")[0].destroyChildren();
+
+  }
 }
