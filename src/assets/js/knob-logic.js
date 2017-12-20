@@ -1,3 +1,4 @@
+
 /*!jQuery Knob*/
 /**
  * Downward compatible, touchable dial
@@ -98,7 +99,7 @@
                     displayInput : this.$.data('displayinput') == null || this.$.data('displayinput'),
                     displayPrevious : this.$.data('displayprevious'),
                     fgColor : this.$.data('fgcolor') || '#87CEEB',
-                    background : this.$.data('background') || 'linear-gradient(#f4f4f4,#c3c3c3,#d7d7d7,#ccc,#bfbfbf)',
+                    background : 'transparent',
                     inputColor: this.$.data('inputcolor') || this.$.data('fgcolor') || '#555',
                     inline : false,
                     step : this.$.data('step') || 1,
@@ -408,7 +409,7 @@
         this.extend = function () {
             this.o = $.extend(
                 {
-                    bgColor : this.$.data('bgcolor') || '#555',
+                    bgColor : this.$.data('bgcolor') || 'transparent',
                     angleOffset : this.$.data('angleoffset') || 0,
                     angleArc : this.$.data('anglearc') || 360,
                     inline : true
