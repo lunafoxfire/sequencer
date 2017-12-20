@@ -7,5 +7,9 @@ export const styles = new StyleSettings({
   noteBorderColor: 'magenta',
   selectedNoteColor: '',
   selectedNoteBorderColor: '',
-  playheadFillColor: 'blue'
+  playheadFillColor: 'blue',
+  blackKeyColor: 'black',
+  whiteKeyColor: 'white',
+  activeNoteColor: 'peachpuff',
+  activeNoteBorderColor: 'goldenrod'
 });

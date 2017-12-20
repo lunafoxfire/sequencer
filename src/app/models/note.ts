@@ -57,4 +57,16 @@ export class Note {
   static convertEigthNoteNumToMeasureString(number: number) {
     return `0:${(number / 2)}`
   }
+
+  static isBlackKey(number:number){
+    let pitchClassNumber = number % 12;
+    if (pitchClassNumber < 0) {
+      pitchClassNumber += 12;
+    }
+    if ([1,3,6,8,10].includes(pitchClassNumber)){
+      return true;
+    } else {
+      return false;
+    }
+  }
 }
