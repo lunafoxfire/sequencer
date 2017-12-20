@@ -5,6 +5,7 @@ export class StyleSettings {
   public noteBorderColor;
   public selectedNoteColor;
   public selectedNoteBorderColor;
+  public playheadFillColor;
 
   constructor(settings) {
     this.bgColor = settings.bgColor || 'white';
@@ -13,5 +14,6 @@ export class StyleSettings {
     this.noteBorderColor = settings.noteBorderColor || 'black';
     this.selectedNoteColor = settings.selectedNoteColor || 'black';
     this.selectedNoteBorderColor = settings.selectedNoteBorderColor || 'black';
+    this.playheadFillColor = settings.playheadFillColor || 'black';
   }
 }

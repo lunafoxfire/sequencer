@@ -4,7 +4,7 @@
     <div class="top-buttons">
       <div class="top-buttons-wrap">
         <button class="left-buttons">Load</button>
-        <button class="left-buttons">Clear</button>
+        <button class="left-buttons" (click)="main.clearNotes()">Clear</button>
       </div>
       <div class="logo">SEQUENCER</div>
       <div class="top-buttons-wrap">
@@ -15,14 +15,14 @@
     <div class="top">
 
     </div>
-    <app-sequencer></app-sequencer>
+    <div id="sequencer"></div>
     <div class="footer">
       <div class="button-holder">
-        <button (click)="sequencer.playStop(); buttonToggleName()">
+        <button (click)="main.playPause(); buttonToggleName()">
           {{buttonToggleNameValue()}}
           <!-- <div (click)="buttonToggle()" id="play-pause" class="play"></div> -->
           </button>
-        <button>Stop</button>
+        <button (click)="main.stop()">Stop</button>
       </div>
 
       <div id="eqcontainer">
@@ -33,7 +33,7 @@
 
 
       <div id="slidecontainer">
-        <input type="range" min="1" max="100" value="100" class="slider" id="bpm-slider">
+        <input type="range" min="50" max="200" (change)="main.setTempo(tempo)" [(ngModel)]="tempo" class="slider" id="bpm-slider">
         <div class="slider-marks-container">
           <div class="circle"></div>
           <div class="circle"></div>

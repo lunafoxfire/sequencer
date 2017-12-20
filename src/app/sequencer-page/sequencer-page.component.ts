@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Main } from '../models/main';
+import { styles } from './sequencer-styles';
 
 let nameToggle = "Play";
-
 
 @Component({
   selector: 'app-sequencer-page',
@@ -10,8 +10,14 @@ let nameToggle = "Play";
   styleUrls: ['./sequencer-page.component.scss']
 })
 export class SequencerPageComponent implements OnInit {
+  main: Main = null;
+  tempo: number = 120;
 
-  constructor() { }
+  constructor() {}
+
+  ngOnInit() {
+    this.main = new Main('sequencer', styles);
+  }
 
   buttonToggleName() {
     console.log(nameToggle);
@@ -23,18 +29,12 @@ export class SequencerPageComponent implements OnInit {
   buttonToggleNameValue() {
     return nameToggle;
   }
-  
+
   buttonToggle() {
     // alert("toggle");
     var variable = document.querySelector('#play-pause').classList;
     if (variable.contains("paused") === true) {
       variable.remove('paused');
     } else { variable.add('paused') }
-  }
-
-  ngOnInit() {}
-
-  public playStop() {
-    Main.playStop();
   }
 }
