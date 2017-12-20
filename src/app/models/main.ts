@@ -1,23 +1,22 @@
 import * as Konva from 'konva';
 import { PolySynth, Synth, Transport, Part } from 'tone';
 import { Note } from './../models/note';
+import { Grid } from './../models/grid';
 import { StyleSettings } from './../models/style-settings';
 
 export class Main {
-  private styles: StyleSettings;
+  private styles: StyleSettings = new StyleSettings({});
 
-  private gridHeight: number = 40;
   private noteRangeMax: number = 12;
   private noteRangeMin: number = -12;
-  private numRows: number = this.noteRangeMax - this.noteRangeMin + 1;
-  private sequencerHeight: number = this.gridHeight * this.numRows;
-
   private beatsPerMeasure: number = 4;
   private numMeasures: number = 2;
-  private gridWidth: number = 70;
-  private mainLayerWidth: number = this.numMeasures * this.beatsPerMeasure * 2 * this.gridWidth;
-
   private sidebarLayerWidth: number = 200;
+
+
+  private grid: Grid;
+  private sequencerHeight: number;
+  private mainLayerWidth: number;
   private stage: Konva.Stage;
 
   private synth = new PolySynth(8, Synth).toMaster();
@@ -27,6 +26,17 @@ export class Main {
 
   constructor(containerId: string, styles: StyleSettings) {
     this.styles = styles;
+
+    this.grid = new Grid(
+      70,
+      40,
+      this.numMeasures * this.beatsPerMeasure * 2,
+      this.noteRangeMax - this.noteRangeMin + 1,
+      this.styles.gridColor
+    );
+    this.sequencerHeight = this.grid.getPixelHeight();
+    this.mainLayerWidth = this.grid.getPixelWidth();
+
     this.initGUI(containerId);
     this.buildNotes();
   }
@@ -56,6 +66,7 @@ export class Main {
     mainLayer.add(notesGroup);
     return mainLayer;
   }
+
   private initBackgroundGroup() {
     let bgGroup = new Konva.Group({
       id: 'background-group'
@@ -69,34 +80,8 @@ export class Main {
     });
     bgRect.on('click', this.addNoteToNoteGroup.bind(this));
     bgGroup.add(bgRect);
-    let gridGroup: Konva.Group = this.initGridGroup();
-    bgGroup.add(gridGroup);
+    this.grid.addToLayer(bgGroup);
     return bgGroup;
-  }
-  private initGridGroup() {
-    let gridGroup = new Konva.Group({
-      id: 'grid-group'
-    });
-    let numVertLines = this.mainLayerWidth / this.gridWidth;
-    let numHorizLines = this.sequencerHeight / this.gridHeight;
-    for (let i = 0; i <= numVertLines; i++) {
-      let lineWidth = (i % 8 === 0) ? 4 : (i % 4 === 0) ? 2 : 1;
-      let line = new Konva.Line({
-        points: [this.gridWidth * i, 0, this.gridWidth * i, this.sequencerHeight],
-        stroke: this.styles.gridColor,
-        strokeWidth: lineWidth
-      });
-      gridGroup.add(line);
-    }
-    for (let j = 1; j <= numHorizLines; j++) {
-      let line = new Konva.Line({
-        points: [0, this.gridHeight * j, this.mainLayerWidth, this.gridHeight * j],
-        stroke: this.styles.gridColor,
-        strokeWidth: 1
-      });
-      gridGroup.add(line);
-    }
-    return gridGroup;
   }
 
   private initSideLayer() {
@@ -124,8 +109,8 @@ export class Main {
   private addNoteToNoteGroup(note: Note, boxX: number, boxY: number) {
     let clickX = this.stage.getPointerPosition().x - this.sidebarLayerWidth;
     let clickY = this.stage.getPointerPosition().y;
-    let clickXBox = Math.floor(clickX / this.gridWidth);
-    let clickYBox = Math.floor(clickY / this.gridHeight);
+    let clickXBox = Math.floor(clickX / this.grid.cellWidth);
+    let clickYBox = Math.floor(clickY / this.grid.cellHeight);
 
     let clickedNote = Note.convertNumToString(this.noteRangeMax - clickYBox);
     let clickedTime = Note.convertEigthNoteNumToMeasureString(clickXBox);
@@ -135,13 +120,13 @@ export class Main {
     let notesGroup = this.stage.find('#notes-group')[0];
     let noteRect = new Konva.Rect({
       id: `${this.lastNoteAddedId}`,
-      x: clickXBox * this.gridWidth,
-      y: clickYBox * this.gridHeight,
-      width: this.gridWidth,
-      height: this.gridHeight,
-      stroke: 'green',
+      x: clickXBox * this.grid.cellWidth,
+      y: clickYBox * this.grid.cellHeight,
+      width: this.grid.cellWidth,
+      height: this.grid.cellHeight,
+      stroke: this.styles.noteBorderColor,
       strokeWidth: 1,
-      fill: 'lime'
+      fill: this.styles.noteColor
     });
     noteRect.on('click', this.removeNoteFromNoteGroup.bind(this));
     this.lastNoteAddedId++;
@@ -154,7 +139,6 @@ export class Main {
     event.target.destroy();
     this.buildNotes();
     this.stage.draw();
-    console.log(this.notes);
   }
 
   public playStop() {
