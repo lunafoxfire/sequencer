@@ -33,7 +33,7 @@
 
 
       <div id="slidecontainer">
-        <input type="range" min="1" max="100" value="100" class="slider" id="bpm-slider">
+        <input type="range" min="50" max="200" (change)="main.setTempo(tempo)" [(ngModel)]="tempo" class="slider" id="bpm-slider">
         <div class="slider-marks-container">
           <div class="circle"></div>
           <div class="circle"></div>

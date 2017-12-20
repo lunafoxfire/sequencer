@@ -11,6 +11,7 @@ let nameToggle = "Play";
 })
 export class SequencerPageComponent implements OnInit {
   main: Main = null;
+  tempo: number = 120;
 
   constructor() {}
 

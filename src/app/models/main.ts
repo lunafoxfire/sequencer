@@ -158,8 +158,13 @@ export class Main {
       Transport.pause();
     }
   }
-  
+
   public stop() {
     Transport.stop();
+  }
+
+  public setTempo(number:number){
+    console.log(number);
+    Transport.bpm.value = number;
   }
 }
