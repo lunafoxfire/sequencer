@@ -21,7 +21,8 @@ export class Main {
   private stage: Konva.Stage;
 
   private synth = new PolySynth(8, Synth).toMaster();
-  private notes: Note[] = [];
+  private lastNoteAddedId: number = 0;
+  private notes = {};
   private part: Part = new Part();
 
   constructor(containerId: string, styles: StyleSettings) {
@@ -66,31 +67,7 @@ export class Main {
       height: this.stage.getHeight(),
       fill: this.styles.bgColor
     });
-    bgRect.on('click', () => {
-      let clickX = this.stage.getPointerPosition().x - this.sidebarLayerWidth;
-      let clickY = this.stage.getPointerPosition().y;
-      let clickXBox = Math.floor(clickX / this.gridWidth);
-      let clickYBox = Math.floor(clickY / this.gridHeight);
-
-      let clickedNote = Note.convertNumToString(this.noteRangeMax - clickYBox);
-      let clickedTime = Note.convertEigthNoteNumToMeasureString(clickXBox);
-      let newNote: Note = new Note(clickedNote, clickedTime, '8n');
-      this.notes.push(newNote);
-      this.buildNotes();
-      let notesGroup = this.stage.find('#notes-group')[0];
-      let noteRect = new Konva.Rect({
-        x: clickXBox * this.gridWidth,
-        y: clickYBox * this.gridHeight,
-        width: this.gridWidth,
-        height: this.gridHeight,
-        stroke: 'green',
-        strokeWidth: 1,
-        fill: 'lime'
-      });
-      notesGroup.add(noteRect);
-      notesGroup.draw();
-      console.log(this.notes);
-    });
+    bgRect.on('click', this.addNoteToNoteGroup.bind(this));
     bgGroup.add(bgRect);
     let gridGroup: Konva.Group = this.initGridGroup();
     bgGroup.add(gridGroup);
@@ -133,14 +110,52 @@ export class Main {
   private buildNotes() {
     this.part.removeAll();
     let noteEvents = [];
-    this.notes.forEach((note)=>{
-      let noteEvent = {time: note.start, note: note.pitch, dur: note.length};
+    let keys = Object.keys(this.notes);
+    keys.forEach((key)=>{
+      let noteEvent = {time: this.notes[key].start, note: this.notes[key].pitch, dur: this.notes[key].length};
       noteEvents.push(noteEvent);
     });
     this.part = new Part((time, event)=>{
       this.synth.triggerAttackRelease(event.note, event.dur, time)
     }, noteEvents);
     this.part.start(0);
+  }
+
+  private addNoteToNoteGroup(note: Note, boxX: number, boxY: number) {
+    let clickX = this.stage.getPointerPosition().x - this.sidebarLayerWidth;
+    let clickY = this.stage.getPointerPosition().y;
+    let clickXBox = Math.floor(clickX / this.gridWidth);
+    let clickYBox = Math.floor(clickY / this.gridHeight);
+
+    let clickedNote = Note.convertNumToString(this.noteRangeMax - clickYBox);
+    let clickedTime = Note.convertEigthNoteNumToMeasureString(clickXBox);
+    let newNote: Note = new Note(clickedNote, clickedTime, '8n');
+    this.notes[this.lastNoteAddedId] = newNote;
+    this.buildNotes();
+    let notesGroup = this.stage.find('#notes-group')[0];
+    let noteRect = new Konva.Rect({
+      id: `${this.lastNoteAddedId}`,
+      x: clickXBox * this.gridWidth,
+      y: clickYBox * this.gridHeight,
+      width: this.gridWidth,
+      height: this.gridHeight,
+      stroke: 'green',
+      strokeWidth: 1,
+      fill: 'lime'
+    });
+    noteRect.on('click', this.removeNoteFromNoteGroup.bind(this));
+    this.lastNoteAddedId++;
+    notesGroup.add(noteRect);
+    notesGroup.draw();
+    console.log(this.notes);
+  }
+
+  private removeNoteFromNoteGroup(event) {
+    delete this.notes[event.target.attrs.id];
+    event.target.destroy();
+    this.buildNotes();
+    this.stage.draw();
+    console.log(this.notes);
   }
 
   public static playStop() {
