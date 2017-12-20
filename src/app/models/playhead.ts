@@ -12,7 +12,6 @@ export class Playhead {
       width: 0,
       height: this.grid.getPixelHeight(),
       fill: this.color,
-      opacity: 0.5,
       listening: false,
       visible: true
     });
