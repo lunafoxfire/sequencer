@@ -12,10 +12,10 @@ export class Main {
   private numRows: number = this.noteRangeMax - this.noteRangeMin + 1;
   private sequencerHeight: number = this.gridHeight * this.numRows;
 
-  private gridSquaresPerMeasure: number = 8;
+  private beatsPerMeasure: number = 4;
   private numMeasures: number = 2;
   private gridWidth: number = 70;
-  private mainLayerWidth: number = this.numMeasures * this.gridSquaresPerMeasure * this.gridWidth;
+  private mainLayerWidth: number = this.numMeasures * this.beatsPerMeasure * 2 * this.gridWidth;
 
   private sidebarLayerWidth: number = 200;
   private stage: Konva.Stage;
@@ -157,8 +157,8 @@ export class Main {
     console.log(this.notes);
   }
 
-  public static playStop() {
-    Transport.loopEnd = '1m';
+  public playStop() {
+    Transport.loopEnd = `0:${this.numMeasures * this.beatsPerMeasure}`;
     Transport.loop = true;
     if (Transport.state !== "started") {
       Transport.start('+0', 0);
