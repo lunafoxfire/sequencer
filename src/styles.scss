@@ -15,7 +15,10 @@ $orange: #fc4920;
 
 
 body {
-  background: linear-gradient(#f4f4f4,#bfbfbf,#d7d7d7,#c3c3c3,#ccc,#d7d7d7,#bfbfbf,#d7d7d7,#c3c3c3,#ccc,#d7d7d7,#bfbfbf);
+  background-image: url('assets/images/background-transparent-texture.png');
+  background-size: cover;
+  background-color: #fff;
+  // background: linear-gradient(#f4f4f4,#bfbfbf,#d7d7d7,#c3c3c3,#ccc,#d7d7d7,#bfbfbf,#d7d7d7,#c3c3c3,#ccc,#d7d7d7,#bfbfbf);
 }
 
 $sh: radial-gradient(
@@ -28,7 +31,6 @@ button {
 	align-self: center;
   height: 100px;
   width: 100px;
-  font-weight: 200;
   font-size: 24px;
 	font-weight: 100;
   box-shadow: 1px 1px 1px 1px $dark-grey;
@@ -203,13 +205,7 @@ input::-webkit-slider-thumb {
 * {
   box-sizing:border-box;
 }
-//
-// body {
-//   background: #1D1F20;
-// }
 
-
-// #02aedd
 
 .play {
   $size : 50px;
@@ -268,18 +264,27 @@ button.bar {
   height: 50px;
   margin-right: 0;
   margin-left: 10px;
-  font-size: 18px;
-  // width: 110px;
+  font-size: 16px;
+  letter-spacing: -1px;
 }
 
 button.left-buttons{
   height: 50px;
   margin-right: 10px;
   margin-left: 0;
-  font-size: 18px;
-  // width: 110px;
+  font-size: 16px;
+  letter-spacing: -1px;
 }
 
-.logo {
-  font-size: 30px;
+.logo img {
+  width: 300px;
 }
+
+
+$break-laptop: 1200px;
+
+  @media screen and (min-width: $break-laptop) {
+    #sequencer {
+      height: 450px;
+    }
+  }

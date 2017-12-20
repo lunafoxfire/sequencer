@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Main } from '../models/main';
+import { SequencerComponent } from './../sequencer/sequencer.component';
 
 let nameToggle = "Play";
 
@@ -13,6 +13,8 @@ export class SequencerPageComponent implements OnInit {
 
   constructor() { }
 
+  sequencer = new SequencerComponent;
+
   buttonToggleName() {
     console.log(nameToggle);
     if (nameToggle === "Play") {
@@ -23,7 +25,7 @@ export class SequencerPageComponent implements OnInit {
   buttonToggleNameValue() {
     return nameToggle;
   }
-  
+
   buttonToggle() {
     // alert("toggle");
     var variable = document.querySelector('#play-pause').classList;
@@ -32,9 +34,7 @@ export class SequencerPageComponent implements OnInit {
     } else { variable.add('paused') }
   }
 
-  ngOnInit() {}
-
-  public playStop() {
-    Main.playStop();
+  ngOnInit() {
   }
+
 }
