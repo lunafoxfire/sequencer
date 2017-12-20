@@ -18,11 +18,11 @@
     <div id="sequencer"></div>
     <div class="footer">
       <div class="button-holder">
-        <button (click)="playStop(); buttonToggleName()">
+        <button (click)="main.playPause(); buttonToggleName()">
           {{buttonToggleNameValue()}}
           <!-- <div (click)="buttonToggle()" id="play-pause" class="play"></div> -->
           </button>
-        <button>Stop</button>
+        <button (click)="main.stop()">Stop</button>
       </div>
 
       <div id="eqcontainer">

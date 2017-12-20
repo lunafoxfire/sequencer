@@ -36,8 +36,4 @@ export class SequencerPageComponent implements OnInit {
       variable.remove('paused');
     } else { variable.add('paused') }
   }
-
-  public playStop() {
-    this.main.playStop();
-  }
 }

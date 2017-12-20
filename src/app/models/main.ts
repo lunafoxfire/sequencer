@@ -148,15 +148,18 @@ export class Main {
     this.buildNotes();
   }
 
-  public playStop() {
-    this.playhead.setPosition(100);
+  public playPause() {
     Transport.loopEnd = `0:${this.numMeasures * this.beatsPerMeasure}`;
     Transport.loop = true;
     if (Transport.state !== "started") {
-      Transport.start('+0', 0);
+      Transport.start();
     }
     else if (Transport.state !== "stopped") {
-      Transport.stop();
+      Transport.pause();
     }
+  }
+  
+  public stop() {
+    Transport.stop();
   }
 }
