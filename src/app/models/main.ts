@@ -3,6 +3,7 @@ import { PolySynth, Synth, Transport, Part } from 'tone';
 import { Note } from './../models/note';
 import { Grid } from './../models/grid';
 import { Playhead } from './../models/playhead';
+import { Sidebar } from './../models/sidebar';
 import { StyleSettings } from './../models/style-settings';
 
 export class Main {
@@ -19,6 +20,7 @@ export class Main {
   private mainLayerWidth: number;
   private grid: Grid;
   private playhead: Playhead;
+  private sidebar: Sidebar;
 
   private synth = new PolySynth(8, Synth).toMaster();
   private lastNoteAddedId: number = 0;
@@ -49,15 +51,14 @@ export class Main {
       height: this.sequencerHeight
     });
     let mainLayer: Konva.Layer = this.initMainLayer();
-    let sidebarLayer: Konva.Layer = this.initSideLayer();
     this.stage.add(mainLayer);
-    this.stage.add(sidebarLayer);
+    this.initSideLayer();
+    this.sidebar.addToLayer(this.stage);
     setInterval(this.draw.bind(this), 10);
   }
 
   private draw() {
     this.playhead.setPosition(Transport.progress * this.grid.getPixelWidth());
-
     this.stage.draw();
   }
 
@@ -93,12 +94,9 @@ export class Main {
     return bgGroup;
   }
 
+  // i add dis TODO
   private initSideLayer() {
-    // TODO: stuff
-    let sidebarLayer: Konva.Layer = new Konva.Layer({
-      id: 'sidebar-layer'
-    });
-    return sidebarLayer;
+    this.sidebar = new Sidebar(this.noteRangeMax, this.sidebarLayerWidth, this.grid, this.synth);
   }
 
   private buildNotes() {
@@ -115,7 +113,7 @@ export class Main {
     this.part.start(0);
   }
 
-  private addNoteToNoteGroup(note: Note, boxX: number, boxY: number) {
+  private addNoteToNoteGroup() {
     let clickX = this.stage.getPointerPosition().x - this.sidebarLayerWidth;
     let clickY = this.stage.getPointerPosition().y;
     let clickXBox = Math.floor(clickX / this.grid.cellWidth);
@@ -124,6 +122,7 @@ export class Main {
     let clickedNote = Note.convertNumToString(this.noteRangeMax - clickYBox);
     let clickedTime = Note.convertEigthNoteNumToMeasureString(clickXBox);
     let newNote: Note = new Note(clickedNote, clickedTime, '8n');
+    this.synth.triggerAttackRelease(newNote.pitch, newNote.length);
     this.notes[this.lastNoteAddedId] = newNote;
     this.buildNotes();
     let notesGroup = this.stage.find('#notes-group')[0];

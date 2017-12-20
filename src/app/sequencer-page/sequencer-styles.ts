@@ -9,5 +9,10 @@ export const styles = new StyleSettings({
   noteBorderColor: 'grey',
   selectedNoteColor: 'orange',
   selectedNoteBorderColor: '',
-  playheadFillColor: 'rgba(135,206,235,0.4)'
+
+  playheadFillColor: 'rgba(135,206,235,0.4)',
+  blackKeyColor: 'black',
+  whiteKeyColor: 'white',
+  activeNoteColor: 'peachpuff',
+  activeNoteBorderColor: 'goldenrod'
 });
