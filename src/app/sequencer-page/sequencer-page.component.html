@@ -1,20 +1,51 @@
+
 <div class="outer-container">
   <div class="inner-container">
-
+    <div class="top-buttons">
+      <div class="top-buttons-wrap">
+        <button class="left-buttons">Load</button>
+        <button class="left-buttons">Clear</button>
+      </div>
+      <div class="logo">SEQUENCER</div>
+      <div class="top-buttons-wrap">
+        <button class="bar">Add Bar</button>
+        <button class="bar">Delete Bar</button>
+      </div>
+    </div>
     <div class="top">
 
     </div>
     <app-sequencer></app-sequencer>
     <div class="footer">
       <div class="button-holder">
-        <button (click)="playStop(); buttonToggleName()">
+        <button (click)="sequencer.playStop(); buttonToggleName()">
           {{buttonToggleNameValue()}}
-        </button>
+          <!-- <div (click)="buttonToggle()" id="play-pause" class="play"></div> -->
+          </button>
         <button>Stop</button>
       </div>
 
+      <div id="eqcontainer">
+        <input type="range" min="1" max="50" value="25" class="slider eq" id="eq-bass" orient="vertical">
+        <input type="range" min="1" max="50" value="25" class="slider eq" id="eq-mid" orient="vertical">
+        <input type="range" min="1" max="50" value="25" class="slider eq" id="eq-treble" orient="vertical">
+      </div>
+
+
       <div id="slidecontainer">
-        <input type="range" min="1" max="100" value="50" class="slider" id="bpm-slider">
+        <input type="range" min="1" max="100" value="100" class="slider" id="bpm-slider">
+        <div class="slider-marks-container">
+          <div class="circle"></div>
+          <div class="circle"></div>
+          <div class="circle"></div>
+          <div class="circle"></div>
+        </div>
+        <div class="slider-numbers-container">
+          <div class="number">50</div>
+          <div class="number">100</div>
+          <div class="number">150</div>
+          <div class="number">200</div>
+        </div>
       </div>
       <!-- <button class="button" id="volume"></button> -->
       <div class="volume"><input type="text" class="dial button" data-min="-50" data-max="50"></div>
