@@ -7,5 +7,5 @@ export const styles = new StyleSettings({
   noteBorderColor: 'magenta',
   selectedNoteColor: '',
   selectedNoteBorderColor: '',
-  playheadLineColor: ''
+  playheadFillColor: 'blue'
 });

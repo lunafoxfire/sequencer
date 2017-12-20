@@ -2,6 +2,7 @@ import * as Konva from 'konva';
 import { PolySynth, Synth, Transport, Part } from 'tone';
 import { Note } from './../models/note';
 import { Grid } from './../models/grid';
+import { Playhead } from './../models/playhead';
 import { StyleSettings } from './../models/style-settings';
 
 export class Main {
@@ -13,11 +14,11 @@ export class Main {
   private numMeasures: number = 2;
   private sidebarLayerWidth: number = 200;
 
-
-  private grid: Grid;
+  private stage: Konva.Stage;
   private sequencerHeight: number;
   private mainLayerWidth: number;
-  private stage: Konva.Stage;
+  private grid: Grid;
+  private playhead: Playhead;
 
   private synth = new PolySynth(8, Synth).toMaster();
   private lastNoteAddedId: number = 0;
@@ -28,14 +29,14 @@ export class Main {
     this.styles = styles;
 
     this.grid = new Grid(
-      70,
-      40,
+      70, 40,
       this.numMeasures * this.beatsPerMeasure * 2,
       this.noteRangeMax - this.noteRangeMin + 1,
       this.styles.gridColor
     );
     this.sequencerHeight = this.grid.getPixelHeight();
     this.mainLayerWidth = this.grid.getPixelWidth();
+    this.playhead = new Playhead(this.grid, this.styles.playheadFillColor);
 
     this.initGUI(containerId);
     this.buildNotes();
@@ -51,6 +52,13 @@ export class Main {
     let sidebarLayer: Konva.Layer = this.initSideLayer();
     this.stage.add(mainLayer);
     this.stage.add(sidebarLayer);
+    setInterval(this.draw.bind(this), 10);
+  }
+
+  private draw() {
+    this.playhead.setPosition(Transport.progress * this.grid.getPixelWidth());
+
+    this.stage.draw();
   }
 
   private initMainLayer() {
@@ -64,6 +72,7 @@ export class Main {
       id: 'notes-group'
     });
     mainLayer.add(notesGroup);
+    this.playhead.addToLayer(mainLayer);
     return mainLayer;
   }
 
@@ -131,17 +140,16 @@ export class Main {
     noteRect.on('click', this.removeNoteFromNoteGroup.bind(this));
     this.lastNoteAddedId++;
     notesGroup.add(noteRect);
-    notesGroup.draw();
   }
 
   private removeNoteFromNoteGroup(event) {
     delete this.notes[event.target.attrs.id];
     event.target.destroy();
     this.buildNotes();
-    this.stage.draw();
   }
 
   public playStop() {
+    this.playhead.setPosition(100);
     Transport.loopEnd = `0:${this.numMeasures * this.beatsPerMeasure}`;
     Transport.loop = true;
     if (Transport.state !== "started") {
