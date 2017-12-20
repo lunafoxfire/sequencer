@@ -58,8 +58,24 @@ export class Main {
   }
 
   private draw() {
-    this.playhead.setPosition(Transport.progress * this.grid.getPixelWidth());
+    this.drawPlayEffects();
     this.stage.draw();
+  }
+
+  private drawPlayEffects() {
+    let playPosition = Transport.progress * this.grid.getPixelWidth();
+    this.playhead.setPosition(playPosition);
+    let noteRects = this.stage.find('#notes-group')[0].getChildren();
+    noteRects.forEach((noteRect) => {
+      if (noteRect.x() < playPosition && playPosition < noteRect.x() + noteRect.width()) {
+          noteRect.fill(this.styles.activeNoteColor);
+          noteRect.stroke(this.styles.activeNoteBorderColor);
+      }
+      else {
+        noteRect.fill(this.styles.noteColor);
+        noteRect.stroke(this.styles.noteBorderColor);
+      }
+    });
   }
 
   private initMainLayer() {
