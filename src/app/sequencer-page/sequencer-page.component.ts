@@ -12,20 +12,15 @@ let nameToggle = "Play";
 export class SequencerPageComponent implements OnInit {
   main: Main = null;
   tempo: number = 120;
-  volume: number = 20;
+  volume: number = 30;
 
-  constructor() {
-    setInterval(() => {
-      console.log(this.volume);
-    }, 500)
-  }
+  constructor() {}
 
   ngOnInit() {
     this.main = new Main('sequencer', styles);
   }
 
   buttonToggleName() {
-    console.log(nameToggle);
     if (nameToggle === "Play") {
       nameToggle = "Pause";
     } else { nameToggle = "Play" }
@@ -36,14 +31,13 @@ export class SequencerPageComponent implements OnInit {
   }
 
   buttonToggle() {
-    // alert("toggle");
     var variable = document.querySelector('#play-pause').classList;
     if (variable.contains("paused") === true) {
       variable.remove('paused');
     } else { variable.add('paused') }
   }
 
-  test() {
-    console.log("yay");
+  activateInstrument(instrument: string) {
+    this.main.setInstrument(instrument);
   }
 }
