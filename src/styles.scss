@@ -67,7 +67,7 @@ button {
 }
 
 .inner-container {
-  padding: 50px;
+  padding: 30px;
     // background: linear-gradient(#f4f4f4,#bfbfbf,#d7d7d7,#c3c3c3,#ccc,#d7d7d7,#bfbfbf,#d7d7d7,#c3c3c3,#ccc,#d7d7d7,#bfbfbf);
  background: url("assets/images/Brushed-metal-working-file-rotated.png");
  background-size: cover;
@@ -324,8 +324,8 @@ button:active {
   // justify-content: center;
   display: flex;
   color: $dark-grey;
-  margin-top: -15px;
-  margin-bottom: 25px;
+  margin-top: -5px;
+  margin-bottom: 15px;
 }
 
 .logo-image {
@@ -333,5 +333,5 @@ button:active {
 }
 
 .mrkv {
-
+  transform: translateY(-5px);
 }

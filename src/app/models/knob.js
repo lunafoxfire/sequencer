@@ -13,6 +13,9 @@ $(function () {
             "skin": "tron",
             "cursor": 10,
             "step": 1,
+            // "data-angleOffset": -125,
+            // "data-angleArc": 250,
+            // "data-rotation": "anticlockwise"
 
 
 
