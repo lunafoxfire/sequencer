@@ -1,7 +1,8 @@
 import * as Konva from 'konva';
-import { PolySynth, Synth, Transport, Part } from 'tone';
+import { Master, Transport, PolySynth, Synth, Part } from 'tone';
 import { Note } from './../models/note';
 import { Grid } from './../models/grid';
+import { Background } from './../models/background';
 import { Playhead } from './../models/playhead';
 import { Sidebar } from './../models/sidebar';
 import { StyleSettings } from './../models/style-settings';
@@ -34,6 +35,7 @@ export class Main {
       56, 26,
       this.numMeasures * this.beatsPerMeasure * 2,
       this.noteRangeMax - this.noteRangeMin + 1,
+      this.beatsPerMeasure,
       this.styles.gridColor
     );
     this.sequencerHeight = this.grid.getPixelHeight();
@@ -52,7 +54,7 @@ export class Main {
     });
     let mainLayer: Konva.Layer = this.initMainLayer();
     this.stage.add(mainLayer);
-    this.initSideLayer();
+    this.sidebar = new Sidebar(this);
     this.sidebar.addToLayer(this.stage);
     setInterval(this.draw.bind(this), 10);
   }
@@ -102,16 +104,14 @@ export class Main {
       y: 0,
       width: this.stage.getWidth(),
       height: this.stage.getHeight(),
-      fill: this.styles.bgColor
+      fill: this.styles.backgroundColor
     });
     bgRect.on('click', this.addNoteToNoteGroup.bind(this));
     bgGroup.add(bgRect);
+    let background = new Background(this.noteRangeMax, this.grid, this.styles);
+    background.addToLayer(bgGroup);
     this.grid.addToLayer(bgGroup);
     return bgGroup;
-  }
-
-  private initSideLayer() {
-    this.sidebar = new Sidebar(this);
   }
 
   private buildNotes() {
@@ -181,9 +181,19 @@ export class Main {
     Transport.bpm.value = number;
   }
 
-  public setVolume(decibels: number) {
-    console.log(decibels);
-      this.synth.volume.value = decibels;
+  public setVolume(volumeKnobPercentage: number) {
+    if (volumeKnobPercentage > 100) {
+      volumeKnobPercentage = 100;
+    }
+    else if (volumeKnobPercentage < 0) {
+      volumeKnobPercentage = 0;
+    }
+    let volume = 30 * (volumeKnobPercentage / 100) - 30;
+    if (volumeKnobPercentage === 0) {
+      volume = -100;
+    }
+    console.log(`Volume: ${volume}`);
+    Master.volume.value = volume;
   }
 
   public setInstrument(instrument: string) {
@@ -253,10 +263,26 @@ export class Main {
       case 'pluck':
         baseSynth = new PolySynth(maxVoices, Synth).set({
           oscillator: {
-            type: 'square'
+            type: 'triangle'
           },
           envelope: {
             attack: 0.005,
+            decay: 0.3,
+            sustain: 0.0,
+            release: 0.2
+          },
+          volume: -2
+        });
+        break;
+
+      case 'poot':
+        baseSynth = new PolySynth(maxVoices, Synth).set({
+          oscillator: {
+            type: 'pwm',
+            modulationFrequency: 100,
+          },
+          envelope: {
+            attack: 0.1,
             decay: 0.2,
             sustain: 0.5,
             release: 0.005
@@ -265,18 +291,20 @@ export class Main {
         });
         break;
 
-      case 'pwm':
+      case 'doot':
         baseSynth = new PolySynth(maxVoices, Synth).set({
           oscillator: {
-            type: 'square'
+            type: 'fatsquare',
+            spread: 5,
+            count: 4
           },
           envelope: {
             attack: 0.005,
             decay: 0.2,
-            sustain: 0.5,
+            sustain: 0.3,
             release: 0.005
           },
-          volume: -16
+          volume: -12
         });
         break;
 

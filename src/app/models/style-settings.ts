@@ -1,5 +1,7 @@
 export class StyleSettings {
-  public bgColor;
+  public backgroundColor;
+  public noteGuideBlackColor;
+  public noteGuideWhiteColor;
   public gridColor;
   public noteColor;
   public noteBorderColor;
@@ -14,7 +16,9 @@ export class StyleSettings {
   public activeWhiteKeyColor;
 
   constructor(settings) {
-    this.bgColor = settings.bgColor || 'white';
+    this.backgroundColor = settings.backgroundColor || 'white';
+    this.noteGuideBlackColor = settings.noteGuideBlackColor || '#ddd';
+    this.noteGuideWhiteColor = settings.noteGuideWhiteColor || 'white';
     this.gridColor = settings.gridColor || 'black';
     this.noteColor = settings.noteColor || 'asdfghjkl';
     this.noteBorderColor = settings.noteBorderColor || 'black';

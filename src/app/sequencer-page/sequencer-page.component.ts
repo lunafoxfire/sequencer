@@ -12,12 +12,24 @@ let nameToggle = "Play";
 export class SequencerPageComponent implements OnInit {
   main: Main = null;
   tempo: number = 120;
-  volume: number = 30;
 
   constructor() {}
 
   ngOnInit() {
     this.main = new Main('sequencer', styles);
+
+    let volumeValueSpan = document.querySelector('#hiddenVolumeValue');
+    let observer = new MutationObserver((mutations) => {
+      mutations.forEach((mutation) => {
+        this.main.setVolume(parseInt(mutation.target.textContent));
+      });
+    });
+    var config = {
+      attributes: true,
+      childList: true,
+      characterData: true
+    }
+    observer.observe(volumeValueSpan, config);
   }
 
   buttonToggleName() {
