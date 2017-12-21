@@ -1,11 +1,11 @@
 import * as Konva from 'konva';
 import { Note } from './note';
-import { Grid } from './grid';
+import { Main } from './main';
 
 export class Sidebar {
   public sidebarLayer: Konva.Layer;
 
-  constructor(public maxNote: number, public sidebarWidth: number, private grid: Grid, private synth){
+  constructor(private main: Main){
     this.sidebarLayer = new Konva.Layer({
       id: 'sidebar-layer'
     });
@@ -13,25 +13,28 @@ export class Sidebar {
   }
 
   buildKeys(){
-    for(let i = 0; i < this.grid.numRows; i++){
+    for(let i = 0; i < this.main.grid.numRows; i++){
       let keyColor;
-      if (Note.isBlackKey(this.maxNote - i)){
-        keyColor = 'black';
+      let activeKeyColor;
+      if (Note.isBlackKey(this.main.noteRangeMax - i)){
+        keyColor = this.main.styles.blackKeyColor;
+        activeKeyColor = this.main.styles.activeBlackKeyColor;
       } else {
-        keyColor = 'white';
+        keyColor = this.main.styles.whiteKeyColor;
+        activeKeyColor = this.main.styles.activeWhiteKeyColor;
       }
       let keyRect = new Konva.Rect({
         x: 0,
-        y: this.grid.cellHeight * i,
-        height: this.grid.cellHeight,
-        width: this.sidebarWidth,
+        y: this.main.grid.cellHeight * i,
+        height: this.main.grid.cellHeight,
+        width: this.main.sidebarWidth,
         fill: keyColor,
-        stroke: 'black',
+        stroke: this.main.styles.blackKeyColor,
         strokeWidth: 1
       });
-      keyRect.on('mousedown', () => {
-        this.clickKey(this.maxNote - i);
-        keyRect.fill('yellow');
+      keyRect.on('mousedown', (event) => {
+        this.clickKey(this.main.noteRangeMax - i, event);
+        keyRect.fill(activeKeyColor);
       });
 
       keyRect.on('mouseup mouseleave', function(){
@@ -41,20 +44,12 @@ export class Sidebar {
     }
   }
 
-  // delete this
-  getSideLayer(){
-    this.buildKeys();
-    return this.sidebarLayer;
-  }
-
   public addToLayer(layer) {
     layer.add(this.sidebarLayer);
   }
 
-  clickKey(number){
+  clickKey(number, event){
     let noteToPlay = Note.convertNumToString(number);
-    this.synth.triggerAttackRelease(noteToPlay, '8n');
+    this.main.synth.triggerAttackRelease(noteToPlay, '8n');
   }
-
-
 }

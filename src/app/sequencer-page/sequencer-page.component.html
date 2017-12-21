@@ -48,7 +48,7 @@
         </div>
       </div>
       <!-- <button class="button" id="volume"></button> -->
-      <div class="volume"><input type="text" class="dial button" data-min="-50" data-max="50"></div>
+      <div class="volume"><input #volumeDial (input)="test()" type="text" id="volume-dial" class="dial button" data-min="0" data-max="32" value="100"></div>
     </div>
   </div>
 </div>
