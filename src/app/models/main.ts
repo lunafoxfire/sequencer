@@ -24,6 +24,7 @@ export class Main {
   public sidebar: Sidebar;
 
   public synth;
+  public instrumentName;
   public notes = {};
   public lastNoteAddedId: number = 0;
   public part: Part = new Part();
@@ -313,6 +314,7 @@ export class Main {
       //   break;
     }
     if (baseSynth) {
+      this.instrumentName = instrument;
       this.synth = baseSynth.toMaster();
     }
   }
@@ -321,6 +323,14 @@ export class Main {
     this.notes = {};
     this.buildNotes(); // make this attached to notesGroup object in the future to reflect all changes made to notes-group
     this.stage.find("#notes-group")[0].destroyChildren();
+  }
 
+  public addMeasure() {
+    console.log('+');
+  }
+  public deleteMeasure() {
+    if (this.numMeasures > 1) {
+      console.log('-');
+    }
   }
 }
