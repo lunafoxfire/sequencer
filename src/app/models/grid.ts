@@ -7,6 +7,7 @@ export class Grid {
     public cellHeight: number,
     public numCols: number,
     public numRows: number,
+    public beatsPerMeasure: number,
     public gridColor: string
   ) {
     this.buildGridKonvaGroup();
@@ -30,7 +31,7 @@ export class Grid {
     let numVertLines = this.numCols + 1;
     let numHorizLines = this.numRows + 1;
     for (let i = 0; i <= numVertLines; i++) {
-      let lineWidth = (i % 8 === 0) ? 4 : (i % 4 === 0) ? 2 : 1;
+      let lineWidth = (i % (2 * this.beatsPerMeasure) === 0) ? 4 : (i % (this.beatsPerMeasure) === 0) ? 2 : 1;
       let line = new Konva.Line({
         points: [this.cellWidth * i, 0, this.cellWidth * i, this.getPixelHeight()],
         stroke: this.gridColor,

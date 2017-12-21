@@ -34,6 +34,7 @@ export class Main {
       70, 40,
       this.numMeasures * this.beatsPerMeasure * 2,
       this.noteRangeMax - this.noteRangeMin + 1,
+      this.beatsPerMeasure,
       this.styles.gridColor
     );
     this.sequencerHeight = this.grid.getPixelHeight();
