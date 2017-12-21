@@ -9,11 +9,11 @@ import { StyleSettings } from './../models/style-settings';
 export class Main {
   public styles: StyleSettings = new StyleSettings({});
 
-  public noteRangeMax: number = 12;
-  public noteRangeMin: number = -12;
+  public noteRangeMax: number = 24;
+  public noteRangeMin: number = -24;
   public beatsPerMeasure: number = 4;
   public numMeasures: number = 2;
-  public sidebarWidth: number = 200;
+  public sidebarWidth: number = 87;
 
   public stage: Konva.Stage;
   public sequencerHeight: number;
@@ -31,7 +31,7 @@ export class Main {
     this.styles = styles;
 
     this.grid = new Grid(
-      70, 40,
+      56, 26,
       this.numMeasures * this.beatsPerMeasure * 2,
       this.noteRangeMax - this.noteRangeMin + 1,
       this.styles.gridColor
