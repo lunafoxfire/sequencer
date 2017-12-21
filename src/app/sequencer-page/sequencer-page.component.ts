@@ -12,8 +12,13 @@ let nameToggle = "Play";
 export class SequencerPageComponent implements OnInit {
   main: Main = null;
   tempo: number = 120;
+  volume: number = 20;
 
-  constructor() {}
+  constructor() {
+    setInterval(() => {
+      console.log(this.volume);
+    }, 500)
+  }
 
   ngOnInit() {
     this.main = new Main('sequencer', styles);
@@ -36,5 +41,9 @@ export class SequencerPageComponent implements OnInit {
     if (variable.contains("paused") === true) {
       variable.remove('paused');
     } else { variable.add('paused') }
+  }
+
+  test() {
+    console.log("yay");
   }
 }

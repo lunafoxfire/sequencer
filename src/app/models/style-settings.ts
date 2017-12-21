@@ -5,11 +5,13 @@ export class StyleSettings {
   public noteBorderColor;
   public selectedNoteColor;
   public selectedNoteBorderColor;
+  public activeNoteColor;
+  public activeNoteBorderColor;
   public playheadFillColor;
   public blackKeyColor;
   public whiteKeyColor;
-  public activeNoteColor;
-  public activeNoteBorderColor;
+  public activeBlackKeyColor;
+  public activeWhiteKeyColor;
 
   constructor(settings) {
     this.bgColor = settings.bgColor || 'white';
@@ -18,10 +20,12 @@ export class StyleSettings {
     this.noteBorderColor = settings.noteBorderColor || 'black';
     this.selectedNoteColor = settings.selectedNoteColor || 'black';
     this.selectedNoteBorderColor = settings.selectedNoteBorderColor || 'black';
+    this.activeNoteColor = settings.activeNoteColor || 'peachpuff';
+    this.activeNoteBorderColor = settings.activeNoteBorderColor || 'darkpeachpuff';
     this.playheadFillColor = settings.playheadFillColor || 'black';
     this.blackKeyColor = settings.blackKeyColor || 'black';
     this.whiteKeyColor = settings.whiteKeyColor || 'white';
-    this.activeNoteColor = settings.activeNoteColor || 'peachpuff';
-    this.activeNoteBorderColor = settings.activeNoteBorderColor || 'darkpeachpuff';
+    this.activeBlackKeyColor = settings.activeBlackKeyColor || 'coral';
+    this.activeWhiteKeyColor = settings.activeWhiteKeyColor || 'peachpuff';
   }
 }

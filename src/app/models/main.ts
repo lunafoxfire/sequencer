@@ -7,25 +7,25 @@ import { Sidebar } from './../models/sidebar';
 import { StyleSettings } from './../models/style-settings';
 
 export class Main {
-  private styles: StyleSettings = new StyleSettings({});
+  public styles: StyleSettings = new StyleSettings({});
 
-  private noteRangeMax: number = 12;
-  private noteRangeMin: number = -12;
-  private beatsPerMeasure: number = 4;
-  private numMeasures: number = 2;
-  private sidebarLayerWidth: number = 200;
+  public noteRangeMax: number = 12;
+  public noteRangeMin: number = -12;
+  public beatsPerMeasure: number = 4;
+  public numMeasures: number = 2;
+  public sidebarWidth: number = 200;
 
-  private stage: Konva.Stage;
-  private sequencerHeight: number;
-  private mainLayerWidth: number;
-  private grid: Grid;
-  private playhead: Playhead;
-  private sidebar: Sidebar;
+  public stage: Konva.Stage;
+  public sequencerHeight: number;
+  public mainLayerWidth: number;
+  public grid: Grid;
+  public playhead: Playhead;
+  public sidebar: Sidebar;
 
-  private synth = new PolySynth(8, Synth).toMaster();
-  private lastNoteAddedId: number = 0;
-  private notes = {};
-  private part: Part = new Part();
+  public synth = new PolySynth(8, Synth).toMaster();
+  public notes = {};
+  public lastNoteAddedId: number = 0;
+  public part: Part = new Part();
 
   constructor(containerId: string, styles: StyleSettings) {
     this.styles = styles;
@@ -47,7 +47,7 @@ export class Main {
   private initGUI(containerId: string) {
     this.stage = new Konva.Stage({
       container: containerId,
-      width: this.mainLayerWidth + this.sidebarLayerWidth,
+      width: this.mainLayerWidth + this.sidebarWidth,
       height: this.sequencerHeight
     });
     let mainLayer: Konva.Layer = this.initMainLayer();
@@ -58,14 +58,30 @@ export class Main {
   }
 
   private draw() {
-    this.playhead.setPosition(Transport.progress * this.grid.getPixelWidth());
+    this.drawPlayEffects();
     this.stage.draw();
+  }
+
+  private drawPlayEffects() {
+    let playPosition = Transport.progress * this.grid.getPixelWidth();
+    this.playhead.setPosition(playPosition);
+    let noteRects = this.stage.find('#notes-group')[0].getChildren();
+    noteRects.forEach((noteRect) => {
+      if (noteRect.x() < playPosition && playPosition < noteRect.x() + noteRect.width()) {
+          noteRect.fill(this.styles.activeNoteColor);
+          noteRect.stroke(this.styles.activeNoteBorderColor);
+      }
+      else {
+        noteRect.fill(this.styles.noteColor);
+        noteRect.stroke(this.styles.noteBorderColor);
+      }
+    });
   }
 
   private initMainLayer() {
     let mainLayer: Konva.Layer = new Konva.Layer({
       id: 'main-layer',
-      x: this.sidebarLayerWidth
+      x: this.sidebarWidth
     });
     let bgGroup: Konva.Group = this.initBackgroundGroup();
     mainLayer.add(bgGroup);
@@ -94,9 +110,8 @@ export class Main {
     return bgGroup;
   }
 
-  // i add dis TODO
   private initSideLayer() {
-    this.sidebar = new Sidebar(this.noteRangeMax, this.sidebarLayerWidth, this.grid, this.synth);
+    this.sidebar = new Sidebar(this);
   }
 
   private buildNotes() {
@@ -114,7 +129,7 @@ export class Main {
   }
 
   private addNoteToNoteGroup() {
-    let clickX = this.stage.getPointerPosition().x - this.sidebarLayerWidth;
+    let clickX = this.stage.getPointerPosition().x - this.sidebarWidth;
     let clickY = this.stage.getPointerPosition().y;
     let clickXBox = Math.floor(clickX / this.grid.cellWidth);
     let clickYBox = Math.floor(clickY / this.grid.cellHeight);
@@ -163,8 +178,12 @@ export class Main {
   }
 
   public setTempo(number:number){
-    console.log(number);
     Transport.bpm.value = number;
+  }
+
+  public setVolume(decibels: number) {
+    console.log(decibels);
+      this.synth.volume.value = decibels;
   }
 
   public clearNotes(){
