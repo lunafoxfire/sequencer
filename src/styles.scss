@@ -72,8 +72,10 @@ button {
  background: url("assets/images/Brushed-metal-working-file-rotated.png");
  background-size: cover;
  border-radius: 3px;
- border: 2px solid $dark-grey;
- box-shadow: 2px 2px 5px 2px rgba(50,50,50,0.5);
+ border: 15px solid;
+ border-image: url("assets/images/border-2.png") 20 stretch;
+ box-shadow: 2px 2px 5px 2px rgba(50,50,50,0.5),
+            inset 0px 0px 2px 2px $extra-dark-grey;
  // background-size: cover;
 }
 
@@ -81,7 +83,7 @@ button {
   border: 1px solid $dark-grey;
   overflow: scroll;
   width: 1000px;
-  height: 600px;
+  height: 400px;
   background-color: white;
 }
 
