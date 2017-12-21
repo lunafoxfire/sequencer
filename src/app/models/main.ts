@@ -1,5 +1,5 @@
 import * as Konva from 'konva';
-import { PolySynth, Synth, Transport, Part } from 'tone';
+import { Master, Transport, PolySynth, Synth, Part } from 'tone';
 import { Note } from './../models/note';
 import { Grid } from './../models/grid';
 import { Playhead } from './../models/playhead';
@@ -181,9 +181,19 @@ export class Main {
     Transport.bpm.value = number;
   }
 
-  public setVolume(decibels: number) {
-    console.log(`Volume: ${decibels}`);
-      this.synth.volume.value = decibels;
+  public setVolume(volumeKnobPercentage: number) {
+    if (volumeKnobPercentage > 100) {
+      volumeKnobPercentage = 100;
+    }
+    else if (volumeKnobPercentage < 0) {
+      volumeKnobPercentage = 0;
+    }
+    let volume = 30 * (volumeKnobPercentage / 100) - 30;
+    if (volumeKnobPercentage === 0) {
+      volume = -100;
+    }
+    console.log(`Volume: ${volume}`);
+    Master.volume.value = volume;
   }
 
   public setInstrument(instrument: string) {
