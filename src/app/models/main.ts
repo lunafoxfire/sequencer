@@ -264,10 +264,26 @@ export class Main {
       case 'pluck':
         baseSynth = new PolySynth(maxVoices, Synth).set({
           oscillator: {
-            type: 'square'
+            type: 'triangle'
           },
           envelope: {
             attack: 0.005,
+            decay: 0.3,
+            sustain: 0.0,
+            release: 0.2
+          },
+          volume: -2
+        });
+        break;
+
+      case 'poot':
+        baseSynth = new PolySynth(maxVoices, Synth).set({
+          oscillator: {
+            type: 'pwm',
+            modulationFrequency: 100,
+          },
+          envelope: {
+            attack: 0.1,
             decay: 0.2,
             sustain: 0.5,
             release: 0.005
@@ -276,18 +292,20 @@ export class Main {
         });
         break;
 
-      case 'pwm':
+      case 'doot':
         baseSynth = new PolySynth(maxVoices, Synth).set({
           oscillator: {
-            type: 'square'
+            type: 'fatsquare',
+            spread: 5,
+            count: 4
           },
           envelope: {
             attack: 0.005,
             decay: 0.2,
-            sustain: 0.5,
+            sustain: 0.3,
             release: 0.005
           },
-          volume: -16
+          volume: -12
         });
         break;
 
