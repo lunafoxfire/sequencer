@@ -49,7 +49,7 @@ export class Sidebar {
   }
 
   clickKey(number, event){
-    let noteToPlay = Note.convertNumToString(number);
+    let noteToPlay = Note.getPitchAsString(number);
     this.main.synth.triggerAttackRelease(noteToPlay, '8n');
   }
 }
