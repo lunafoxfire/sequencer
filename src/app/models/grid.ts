@@ -1,7 +1,9 @@
 import * as Konva from 'konva';
 
 export class Grid {
-  private group: Konva.Group;
+  private group: Konva.Group = new Konva.Group({
+    id: 'grid-group'
+  });
   constructor(
     public cellWidth: number,
     public cellHeight: number,
@@ -25,9 +27,6 @@ export class Grid {
   }
 
   private buildGridKonvaGroup() {
-    this.group = new Konva.Group({
-      id: 'grid-group'
-    });
     let numVertLines = this.numCols + 1;
     let numHorizLines = this.numRows + 1;
     for (let i = 0; i <= numVertLines; i++) {

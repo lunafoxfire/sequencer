@@ -1,11 +1,14 @@
 import * as Konva from 'konva';
 import { Master, Transport, PolySynth, Synth, Part } from 'tone';
+import { Song } from './../models/song';
 import { Note } from './../models/note';
 import { Grid } from './../models/grid';
 import { Background } from './../models/background';
 import { Playhead } from './../models/playhead';
 import { Sidebar } from './../models/sidebar';
 import { StyleSettings } from './../models/style-settings';
+
+import { testSong } from './testSong';
 
 export class Main {
   public styles: StyleSettings = new StyleSettings({});
@@ -24,6 +27,7 @@ export class Main {
   public sidebar: Sidebar;
 
   public synth;
+  public instrumentName;
   public notes = {};
   public lastNoteAddedId: number = 0;
   public part: Part = new Part();
@@ -44,6 +48,8 @@ export class Main {
 
     this.initGUI(containerId);
     this.buildNotes();
+
+    this.loadSong(testSong);
   }
 
   private initGUI(containerId: string) {
@@ -106,7 +112,7 @@ export class Main {
       height: this.stage.getHeight(),
       fill: this.styles.backgroundColor
     });
-    bgRect.on('click', this.addNoteToNoteGroup.bind(this));
+    bgRect.on('click', this.addNoteOnClick.bind(this));
     bgGroup.add(bgRect);
     let background = new Background(this.noteRangeMax, this.grid, this.styles);
     background.addToLayer(bgGroup);
@@ -119,7 +125,7 @@ export class Main {
     let noteEvents = [];
     let keys = Object.keys(this.notes);
     keys.forEach((key)=>{
-      let noteEvent = {time: this.notes[key].start, note: this.notes[key].pitch, dur: this.notes[key].length};
+      let noteEvent = {time: this.notes[key].getMeasurePositionString(), note: this.notes[key].getPitchString(), dur: this.notes[key].length};
       noteEvents.push(noteEvent);
     });
     this.part = new Part((time, event)=>{
@@ -128,23 +134,26 @@ export class Main {
     this.part.start(0);
   }
 
-  private addNoteToNoteGroup() {
+  private addNoteOnClick() {
     let clickX = this.stage.getPointerPosition().x - this.sidebarWidth;
     let clickY = this.stage.getPointerPosition().y;
     let clickXBox = Math.floor(clickX / this.grid.cellWidth);
     let clickYBox = Math.floor(clickY / this.grid.cellHeight);
 
-    let clickedNote = Note.convertNumToString(this.noteRangeMax - clickYBox);
-    let clickedTime = Note.convertEigthNoteNumToMeasureString(clickXBox);
-    let newNote: Note = new Note(clickedNote, clickedTime, '8n');
-    this.synth.triggerAttackRelease(newNote.pitch, newNote.length);
+    let newNote: Note = new Note(this.noteRangeMax - clickYBox, clickXBox, '8n');
+    this.synth.triggerAttackRelease(newNote.getPitchString(), newNote.length);
+    this.addNote(newNote);
+  }
+
+  private addNote(newNote: Note) {
     this.notes[this.lastNoteAddedId] = newNote;
     this.buildNotes();
+
     let notesGroup = this.stage.find('#notes-group')[0];
     let noteRect = new Konva.Rect({
       id: `${this.lastNoteAddedId}`,
-      x: clickXBox * this.grid.cellWidth,
-      y: clickYBox * this.grid.cellHeight,
+      x: newNote.measurePosition * this.grid.cellWidth,
+      y: (this.noteRangeMax - newNote.pitchNumber) * this.grid.cellHeight,
       width: this.grid.cellWidth,
       height: this.grid.cellHeight,
       stroke: this.styles.noteBorderColor,
@@ -152,6 +161,7 @@ export class Main {
       fill: this.styles.noteColor
     });
     noteRect.on('click', this.removeNoteFromNoteGroup.bind(this));
+
     this.lastNoteAddedId++;
     notesGroup.add(noteRect);
   }
@@ -313,6 +323,7 @@ export class Main {
       //   break;
     }
     if (baseSynth) {
+      this.instrumentName = instrument;
       this.synth = baseSynth.toMaster();
     }
   }
@@ -321,6 +332,22 @@ export class Main {
     this.notes = {};
     this.buildNotes(); // make this attached to notesGroup object in the future to reflect all changes made to notes-group
     this.stage.find("#notes-group")[0].destroyChildren();
+  }
 
+  public addMeasure() {
+    console.log('+');
+  }
+  public deleteMeasure() {
+    if (this.numMeasures > 1) {
+      console.log('-');
+    }
+  }
+
+  public loadSong(song: Song) {
+    this.setTempo(song.tempo);
+    this.setInstrument(song.instrument);
+    song.notes.forEach((note) => {
+      this.addNote(note);
+    });
   }
 }

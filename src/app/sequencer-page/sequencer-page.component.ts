@@ -17,6 +17,9 @@ export class SequencerPageComponent implements OnInit {
 
   ngOnInit() {
     this.main = new Main('sequencer', styles);
+    let sequencerDiv = document.querySelector('#sequencer');
+    let scrollPoint = this.main.sequencerHeight / 2 - sequencerDiv.offsetHeight / 2;
+    sequencerDiv.scroll(0, scrollPoint);
 
     let volumeValueSpan = document.querySelector('#hiddenVolumeValue');
     let observer = new MutationObserver((mutations) => {
