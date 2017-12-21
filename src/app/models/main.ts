@@ -22,14 +22,14 @@ export class Main {
   public playhead: Playhead;
   public sidebar: Sidebar;
 
-  public synth = new PolySynth(8, Synth).toMaster();
+  public synth;
   public notes = {};
   public lastNoteAddedId: number = 0;
   public part: Part = new Part();
 
   constructor(containerId: string, styles: StyleSettings) {
     this.styles = styles;
-
+    this.setInstrument('square');
     this.grid = new Grid(
       70, 40,
       this.numMeasures * this.beatsPerMeasure * 2,
@@ -184,6 +184,109 @@ export class Main {
   public setVolume(decibels: number) {
     console.log(decibels);
       this.synth.volume.value = decibels;
+  }
+
+  public setInstrument(instrument: string) {
+    let maxVoices = 8;
+    let baseSynth = null;
+    switch(instrument) {
+      case 'square':
+        baseSynth = new PolySynth(maxVoices, Synth).set({
+          oscillator: {
+            type: 'square'
+          },
+          envelope: {
+            attack: 0.005,
+            decay: 0.2,
+            sustain: 0.5,
+            release: 0.005
+          },
+          volume: -16
+        });
+        break;
+
+      case 'sine':
+        baseSynth = new PolySynth(maxVoices, Synth).set({
+          oscillator: {
+            type: 'sine'
+          },
+          envelope: {
+            attack: 0.005,
+            decay: 0.2,
+            sustain: 0.5,
+            release: 0.005
+          },
+          volume: -3
+        });
+        break;
+
+      case 'saw':
+        baseSynth = new PolySynth(maxVoices, Synth).set({
+          oscillator: {
+            type: 'sawtooth'
+          },
+          envelope: {
+            attack: 0.005,
+            decay: 0.2,
+            sustain: 0.5,
+            release: 0.005
+          },
+          volume: -16
+        });
+        break;
+
+      case 'triangle':
+        baseSynth = new PolySynth(maxVoices, Synth).set({
+          oscillator: {
+            type: 'triangle'
+          },
+          envelope: {
+            attack: 0.005,
+            decay: 0.2,
+            sustain: 0.5,
+            release: 0.005
+          },
+          volume: -3
+        });
+        break;
+
+      case 'pluck':
+        baseSynth = new PolySynth(maxVoices, Synth).set({
+          oscillator: {
+            type: 'square'
+          },
+          envelope: {
+            attack: 0.005,
+            decay: 0.2,
+            sustain: 0.5,
+            release: 0.005
+          },
+          volume: -16
+        });
+        break;
+
+      case 'pwm':
+        baseSynth = new PolySynth(maxVoices, Synth).set({
+          oscillator: {
+            type: 'square'
+          },
+          envelope: {
+            attack: 0.005,
+            decay: 0.2,
+            sustain: 0.5,
+            release: 0.005
+          },
+          volume: -16
+        });
+        break;
+
+      // case 'drums':
+      //   console.log('drums');
+      //   break;
+    }
+    if (baseSynth) {
+      this.synth = baseSynth.toMaster();
+    }
   }
 
   public clearNotes(){

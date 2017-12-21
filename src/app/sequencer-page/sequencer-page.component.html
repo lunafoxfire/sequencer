@@ -8,12 +8,14 @@
         <button class="left-buttons" (click)="main.clearNotes()">Clear</button>
       </div>
       <div class="top-buttons-wrap instruments">
-        <button class="bar instrument instrument-top">Square</button>
-        <button class="bar instrument instrument-top">Saw</button>
-        <button class="bar instrument instrument-top">Sine</button>
-        <button class="bar instrument">Piano</button>
-        <button class="bar instrument">Drums</button>
-        <button class="bar instrument">Square</button>
+        <button class="bar instrument instrument-top" (click)="activateInstrument('square')">Square</button>
+        <button class="bar instrument instrument-top" (click)="activateInstrument('sine')">Sine</button>
+        <button class="bar instrument instrument-top" (click)="activateInstrument('triangle')">Triangle</button>
+        <button class="bar instrument instrument-top" (click)="activateInstrument('saw')">Sawtooth</button>
+        <button class="bar instrument" (click)="activateInstrument('pwm')">PWM</button>
+        <button class="bar instrument" (click)="activateInstrument('doot')">Doot</button>
+        <button class="bar instrument" (click)="activateInstrument('doot')">Doot</button>
+        <button class="bar instrument" (click)="activateInstrument('drums')">Drums</button>
       </div>
       <div class="top-buttons-wrap">
         <button class="bar">Add Bar</button>
@@ -56,7 +58,7 @@
         </div>
       </div>
       <!-- <button class="button" id="volume"></button> -->
-      <div class="volume"><input #volumeDial (input)="test()" type="text" id="volume-dial" class="dial button" data-min="0" data-max="32" value="100"></div>
+      <div class="volume"><input #volumeDial (click)="test()" value="12" type="text" id="volume-dial" class="dial button" data-min="0" data-max="32"></div>
     </div>
   </div>
 </div>
