@@ -2,6 +2,7 @@ import * as Konva from 'konva';
 import { Master, Transport, PolySynth, Synth, Part } from 'tone';
 import { Note } from './../models/note';
 import { Grid } from './../models/grid';
+import { Background } from './../models/background';
 import { Playhead } from './../models/playhead';
 import { Sidebar } from './../models/sidebar';
 import { StyleSettings } from './../models/style-settings';
@@ -53,7 +54,7 @@ export class Main {
     });
     let mainLayer: Konva.Layer = this.initMainLayer();
     this.stage.add(mainLayer);
-    this.initSideLayer();
+    this.sidebar = new Sidebar(this);
     this.sidebar.addToLayer(this.stage);
     setInterval(this.draw.bind(this), 10);
   }
@@ -103,16 +104,14 @@ export class Main {
       y: 0,
       width: this.stage.getWidth(),
       height: this.stage.getHeight(),
-      fill: this.styles.bgColor
+      fill: this.styles.backgroundColor
     });
     bgRect.on('click', this.addNoteToNoteGroup.bind(this));
     bgGroup.add(bgRect);
+    let background = new Background(this.noteRangeMax, this.grid, this.styles);
+    background.addToLayer(bgGroup);
     this.grid.addToLayer(bgGroup);
     return bgGroup;
-  }
-
-  private initSideLayer() {
-    this.sidebar = new Sidebar(this);
   }
 
   private buildNotes() {

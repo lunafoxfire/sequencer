@@ -3,10 +3,10 @@ import { Note } from './note';
 import { Main } from './main';
 
 export class Sidebar {
-  public sidebarLayer: Konva.Layer;
+  public layer: Konva.Layer;
 
   constructor(private main: Main){
-    this.sidebarLayer = new Konva.Layer({
+    this.layer = new Konva.Layer({
       id: 'sidebar-layer'
     });
     this.buildKeys();
@@ -40,12 +40,12 @@ export class Sidebar {
       keyRect.on('mouseup mouseleave', function(){
         keyRect.fill(keyColor);
       });
-      this.sidebarLayer.add(keyRect);
+      this.layer.add(keyRect);
     }
   }
 
   public addToLayer(layer) {
-    layer.add(this.sidebarLayer);
+    layer.add(this.layer);
   }
 
   clickKey(number, event){
