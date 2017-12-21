@@ -547,6 +547,8 @@
             this.w2 = this.o.width / 2;
             this.cursorExt = this.o.cursor / 100;
             this.xy = this.w2;
+
+          
             this.lineWidth = this.xy * this.o.thickness;
             this.lineCap = this.o.lineCap;
             this.radius = this.xy - this.lineWidth / 2;
@@ -581,8 +583,8 @@
                         ,'margin-left' : '-' + ((this.o.width * 3 / 4 + 2) >> 0) + 'px'
                         ,'border' : 0
                         ,'background' : 'none'
-                        ,'font' : ((this.o.width / s) >> 0) + 'px Arial'
-
+                        ,'font' : ((this.o.width / s) >> 0) + 'px sans-serif'
+                        ,'font-weight' : 100
                         ,'text-align' : 'center'
                         ,'color' : this.o.inputColor || this.o.fgColor
                         ,'padding' : '0px'

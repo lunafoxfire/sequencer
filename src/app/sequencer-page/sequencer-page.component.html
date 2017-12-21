@@ -19,7 +19,17 @@
       </div>
       <div class="top-buttons-wrap">
 
-        <button class="bar">Time Sig</button>
+        <select class="time-sig-button">
+          <option value="3,4">3/4</option>
+          <option value="4,4" selected="selected">4/4</option>
+          <option value="5,4">5/4</option>
+          <option value="6,4">6/4</option>
+          <option value="3,8">3/8</option>
+          <option value="5,8">5/8</option>
+          <option value="7,8">7/8</option>
+          <option value="11,8">11/8</option>
+        </select>
+
 
       </div>
     </div>
@@ -33,7 +43,7 @@
           {{buttonToggleNameValue()}}
           <!-- <div (click)="buttonToggle()" id="play-pause" class="play"></div> -->
           </button>
-        <button (click)="main.stop()">Stop</button>
+        <button (click)="main.stop(); buttonToggleNameStop()">Stop</button>
       </div>
 
       <!-- <div id="eqcontainer">
@@ -57,6 +67,7 @@
           <div class="number">150</div>
           <div class="number">200</div>
         </div>
+        <span class="indicator" id="bpm-indicator">Beats Per Minute</span>
       </div>
       <div class="top-buttons-wrap">
         <button class="bar">Add Bar</button>

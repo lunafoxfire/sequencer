@@ -11,12 +11,12 @@ export const styles = new StyleSettings({
   noteBorderColor: 'grey',
   selectedNoteColor: 'orange',
   selectedNoteBorderColor: '',
-  activeNoteColor: 'peachpuff',
-  activeNoteBorderColor: 'goldenrod',
+  activeNoteColor: 'rgba(252,73,32,0.2)',
+  activeNoteBorderColor: 'black',
 
   playheadFillColor: 'rgba(135,206,235,0.4)',
   blackKeyColor: 'black',
   whiteKeyColor: 'white',
-  activeBlackKeyColor: 'coral',
-  activeWhiteKeyColor: 'peachpuff',
+  activeBlackKeyColor: '#87CEEB',
+  activeWhiteKeyColor: '#87CEEB',
 });
