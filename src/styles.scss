@@ -17,7 +17,10 @@ $orange: #fc4920;
 
 body {
     background: linear-gradient(140deg,#87ceeb,#145b78);
+}
 
+.hidden {
+  display: none;
 }
 
 $sh: radial-gradient(

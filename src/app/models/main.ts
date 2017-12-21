@@ -182,7 +182,7 @@ export class Main {
   }
 
   public setVolume(decibels: number) {
-    console.log(decibels);
+    console.log(`Volume: ${decibels}`);
       this.synth.volume.value = decibels;
   }
 

@@ -1,21 +1,15 @@
 $(function () {
-    $(".dial").knob({
+    $("#volume-dial").knob({
         'change': function (v) {
-          // TODO: Fix volume nob!
-          $('#volume-dial').attr('value', v);
-
+          $('#hiddenVolumeValue').text(v);
         }
     });
-    $('.dial').trigger('configure', {
-        "min": 1,
-            "max": 32,
-            "fgColor": "#87CEEB",
-            "skin": "tron",
-            "cursor": 10,
-            "step": 1,
-
-
-
+    $('#volume-dial').trigger('configure', {
+      "min": parseInt($('#volume-dial').attr('data-min')),
+      "max": parseInt($('#volume-dial').attr('data-max')),
+      "fgColor": "#87CEEB",
+      "skin": "tron",
+      "cursor": 10,
+      "step": 1,
     });
-
 });

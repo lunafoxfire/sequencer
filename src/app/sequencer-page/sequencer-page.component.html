@@ -58,7 +58,10 @@
         </div>
       </div>
       <!-- <button class="button" id="volume"></button> -->
-      <div class="volume"><input #volumeDial (click)="test()" value="12" type="text" id="volume-dial" class="dial button" data-min="0" data-max="32"></div>
+      <div class="volume">
+        <input type="text" id="volume-dial" class="dial button" data-min="0" data-max="100" value=100>
+        <span id="hiddenVolumeValue" class="hidden"></span>
+      </div>
     </div>
   </div>
 </div>
