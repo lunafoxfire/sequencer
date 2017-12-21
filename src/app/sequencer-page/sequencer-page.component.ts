@@ -38,6 +38,10 @@ export class SequencerPageComponent implements OnInit {
     } else { nameToggle = "Play" }
   }
 
+  buttonToggleNameStop() {
+    nameToggle = "Play" 
+  }
+
   buttonToggleNameValue() {
     return nameToggle;
   }
