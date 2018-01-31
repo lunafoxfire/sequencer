@@ -48,6 +48,7 @@ $ ng serve
 ### Technology Used
 * Node
 * Angular
+* Angular CLI
 * Sass
 * Konva.js
 * Tone.js
