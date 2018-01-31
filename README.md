@@ -1,28 +1,63 @@
 # Sequencer
+### A Music Sequencer (JavaScript Group Project _12.21.2017_)
+##### By Michael Arrington, Kimberly Bordon, Valia Dempsey, and Rane Fields
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.0.0.
+### Description
+_A music sequencer application made using Angular framework, Konva.js and Tone.js._
 
-## Development server
+### Specs
+| Behavior | Input Example | Output Example |
+|-|-|-|
+| User can press one of the grid cells to put a note in sequence.| User clicks one of the cells. | App puts the note in sequence. |
+| User can press play to start the sequence. | User clicks play button. | App plays sequence in a loop. |
+| User can press pause to stop a sequence in play, and keep its current position. | User clicks pause button. | App pauses sequence.|
+| User can press stop to cease a playing sequence. | User clicks stop button. | App stops playing entirely. |
+| User can change instrument of sequencer. | User clicks one of the available instrument setting buttons. | App switches to that instrument. |
+| User can adjust tempo of sequence. | User moves BPM slider up or down. | App increases or decreases rate of playing. |
+| User can adjust volume of sequence. | User moves volume dial clockwise or counter-clockwise. | App increase or decreases volume of playing. |
+| User can clear sequence grid of laid down notes. | User clicks Clear button. | App clears note grid. |
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+### Wishlist
+| Behavior | Input | Output |
+|-|-|-|
+| User can change time signatures of sequence. | User selects time from drop down menu. | App changes grid to reflect time change. |
+| User can add or delete more bars to sequence grid. | User clicks Add Bar or Delete Bar. | App increases or decreases note grid by one column to the right. |
+| User can save song to a database. | User clicks Save button. | App saves song to database. |
+| User can load song from database. | User clicks Load, which will display a selection of songs available the User can then click. | App loads sequence onto grid. |
 
-## Code scaffolding
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive/pipe/service/class/module`.
+### Setup/Install
 
-## Build
+* Make sure you have [Node](https://nodejs.org/en/download/) and the npm (Node package manager, which should come automatically) installed.
+* Go to [this repository page](https://github.com/ranefields/sequencer), and clone the project.
+* Navigate to top level folder of the cloned repository in terminal or powershell, and enter the following commands:
+```
+$ npm install
+```
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `-prod` flag for a production build.
+#### Running/Production
+* To build project, enter the following:
+```
+$ ng serve
+```
 
-## Running unit tests
+### Known Bugs
+* Some features are not yet available.
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
 
-## Running end-to-end tests
+### Technology Used
+* Node
+* Angular
+* Angular CLI
+* Sass
+* Konva.js
+* Tone.js
+* ... and many more packages. In top level of project folder, open `package.json` in Atom (or your preferred text editor) and look for `"devDependencies"` and `"dependencies"` respectively to see the entire list.
 
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
-Before running the tests make sure you are serving the app via `ng serve`.
+### Contact details
+_Email [kbordon@gmail.com](mailto:kbordon@gmail.com) or  [rane.fields@gmail.com](mailto:rane.fields@gmail.com) for comments, questions, or concerns._
 
-## Further help
+### License
+*This software is licensed under the MIT license.*
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+Copyright © 2017 **Michael Arrington, Kimberly Bordon, Valia Dempsey & Rane Fields**
