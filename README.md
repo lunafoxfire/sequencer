@@ -5,6 +5,8 @@
 ### Description
 _A music sequencer application made using Angular framework, Konva.js and Tone.js._
 
+![interface](interface.png)
+
 ### Specs
 | Behavior | Input Example | Output Example |
 |-|-|-|
@@ -40,6 +42,7 @@ $ npm install
 ```
 $ ng serve
 ```
+* Open browser and enter the url into address bar: _localhost:4200/sequencer_
 
 ### Known Bugs
 * Some features are not yet available.
